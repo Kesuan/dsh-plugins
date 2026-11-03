@@ -23,7 +23,7 @@
 
 | 插件 | 类别 | 版本 | 说明 |
 | --- | --- | --- | --- |
-| [dsh-theme-animal-island](plugins/themes/dsh-theme-animal-island/README.md) | themes | 1.0.0 | 动物岛风格主题：羊皮纸底色、薄荷绿点缀、大圆角、Nunito 字体，设置页带岛屿强调色选择器 |
+| [dsh-theme-animal-island](plugins/themes/dsh-theme-animal-island/README.md) | themes | 1.0.0 | 动物岛风格主题：羊皮纸底色、薄荷绿点缀、大圆角、Nunito 字体，设置页带岛屿强调色选择器；设计语言参考 guokaigdg 的 [animal-island-ui](https://github.com/guokaigdg/animal-island-ui) |
 | [dsh-theme-claude-code](plugins/themes/dsh-theme-claude-code/README.md) | themes | 1.0.0 | Claude Code 配色：暖纸/暖炭底色，明暗两套色值跟随系统外观 |
 | [dsh-session-delete](plugins/tools/dsh-session-delete/README.md) | tools | 0.1.0 | 在侧边栏会话菜单中加入「删除会话…」，二次确认后从磁盘移除会话及其检查点 |
 
