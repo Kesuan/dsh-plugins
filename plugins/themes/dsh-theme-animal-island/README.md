@@ -1,100 +1,62 @@
 # Animal Island theme (DSH desktop client)
 
-A DSH bundle that dresses the desktop client in the
-[animal-island-ui](https://github.com/guokaigdg/animal-island-ui) design
-language — the React kit by guokaigdg, whose Vue sibling is
-[animal-island-vue](https://github.com/guokaigdg/animal-island-vue).
+A DSH bundle adapting [animal-island-ui](https://github.com/guokaigdg/animal-island-ui) to the desktop client. Version **1.2.0** preserves the parchment light palette and replaces 1.1.0's rejected all-green night with **clean warm-charcoal surfaces and restrained mint accents**. Neutral layers and gray-white text stay independent of the selected accent; pastel states and rounded details retain the island character.
 
-Cream parchment surfaces, mint teal accent, chunky rounded corners, warm (never
-cold-black) shadows, a yellow focus ring, and the rounded Nunito typeface. An
-**Island accent** row in Settings → General recolors the accent with the eight
-island app-tile colors.
+Settings → General → **Island accent** offers the same eight colors. Existing accent storage, appearance, user text fonts and code/terminal fonts are preserved.
 
-The theme is **desktop-only** twice over: the bundle is installed in the
-`desktop` profile, and the client half also checks for the Electron shell
-(`window.dshDesktop` / `window.dshPlatform`, falling back to the `Electron`
-user-agent token). A plain browser tab pointed at the same Host keeps the
-built-in look.
+## Surface palette
 
-## Layers
-
-| Layer | Mechanism |
-| --- | --- |
-| Palette, type, geometry | `ctx.theme.overrideTokens` — one light/dark token layer over the active built-in scheme, so the theme follows the Light / Dark / System appearance preference |
-| Nunito face, text selection, accent-row component styles | A plugin-owned stylesheet rendered from the `shell.overlay` seat; the module system claims it and removes it with the plugin |
-| Accent picker | A row registered into `settings.general.item` (order 13, right after Appearance and Font size), persisted in `localStorage` |
-
-## Palette
-
-| Anchors | Light | Dark |
+| Role | Light | Dark (1.2.0) |
 | --- | --- | --- |
-| Base background | `#f8f8f0` parchment | `#1e1a14` island night |
-| Raised / nested surface | `#fffdf6` / `#f6f0e0` / `#f1e9d6` | `#29241c` / `#322c22` / `#3a3327` |
-| Sidebar column | `#f2ecda` | `#231f18` |
-| Primary ink | `#794f27` warm brown | `#f4ead8` warm cream |
-| Secondary ink | `#9f927d` | `#c0b49c` |
-| Accent / links | `#0f9d90` mint (darkened for contrast) | `#3dd4c6` |
-| Success / warning / error | `#5a9e1e` / `#dba90e` / `#c94444` | `#85cc45` / `#f5c31c` / `#e87878` |
+| Sidebar | `#f2ecda` | `#20201f` |
+| Reading canvas | `#f8f8f0` | `#292928` |
+| Surface 1 / 2 / 3 | `#fffdf6` / `#f6f0e0` / `#f1e9d6` | `#323230` / `#3b3a37` / `#44433f` |
+| Primary / strong text | `#794f27` / `#5a3a1c` | `#e9e8e4` / `#f5f4ef` |
+| Dimmed / secondary text | `#8a7b66` / `#9f927d` | `#d0cfc8` / `#bdbdb5` |
+| Default mint / hover | `#0f9d90` / `#12b3a6` | `#8bd5ba` / `#a4e2cc` |
+| Success / warning / error | `#5a9e1e` / `#dba90e` / `#c94444` | `#b0cfa0` / `#e4c77f` / `#e5a09a` |
 
-Both primitive ramps (`--dsw-static-neutral-bluish-*`, `--dsw-static-neutral-*`)
-and the brand ramp (`--dsw-static-deepseek-*` → mint) are re-tinted, so the
-shipped alias layer re-colors surfaces, text, borders, menus, code chrome, and
-file icons coherently. Alpha borders keep the shipped subtle strengths, so the
-layout gains no new outlines.
+Dark neutral and neutral-bluish primitive ramps also use warm charcoal, including direct primitive consumers such as composer chrome. Dark selected/active backgrounds use `color-mix(in srgb, brand 18%, transparent)`; ordinary hover stays neutral (`#f5f4ef0f`). The separate accent-hover wash remains 12% brand in dark / 16% in light. Do not confuse these with the primary button's hover color.
 
-Beyond colors the token layer carries:
+Dark brand primitives and 24% text-selection wash follow the selected accent. Light MINT primitives and the existing light text-selection wash remain fixed. Dark menus are opaque surface 2; focus stays yellow. Dark corner tokens start at 12px, while light corner values remain intact. These night colors are a project adaptation, not an official upstream dark scheme. Source: [neutral ramps and surfaces](<client.js#L114-L247>), [token mapping and interaction formulas](<client.js#L327-L470>).
 
-- **Geometry** — `--dsw-radius-xs…panel` grown to the island scale (6/10/14/20/24/28
-  instead of 4/8/12/16/20/28) and `--dsw-corner-shape: superellipse(1.3)` where
-  the engine supports it.
-- **Shadows** — the `--dsw-shadow-lv*` scale re-tinted warm from
-  `rgba(61, 52, 40, …)`; island depth is a warm foot shadow, never a cold halo.
-- **Focus** — `--dsw-focus-ring-color` is amber in light mode and `#ffcc00` in
-  dark mode at the shipped 2px width; the island never uses a blue focus color.
-- **Typography** — only the *default* text stack is overridden
-  (`Nunito, Noto Sans SC, -apple-system, PingFang SC, Hiragino Sans GB, Microsoft YaHei`),
-  so a font chosen in Settings → More font settings still wins. The code stack
-  is left untouched: tool output and code blocks stay monospace.
+## Settings control
 
-The terminal ANSI blue ramp (`--dsw-static-blue-*`) is intentionally not
-overridden — the sidebar terminal maps ANSI colors through it.
+The picker uses 44px round color samples with an inner selection dot and a visible current color name. Samples wrap at narrow widths. Wrapped native radio inputs provide keyboard selection and accessible names; no Unicode checkmark or decorative icon library is needed. Samples have no stacked button shadow. Motion uses the upstream easing over 0.2s and respects reduced-motion preferences; forced-colors mode exposes native radios.
 
-## Accents
+## Runtime and scope
 
-The Settings row shows the island app-tile palette: mint, sky, blossom, sun,
-peach, grape, leaf, coral. Choosing one re-tints buttons, links, focus washes,
-and the "business" state through a single re-registered token layer. The choice
-persists per browser in `localStorage` (`dsh-animal-island.accent`).
+- `ctx.theme.overrideTokens` registers paired light/dark tokens without changing saved appearance. `system` continues to follow the OS.
+- The plugin styles only its own settings row and global text selection, plus the embedded Nunito face. It does not read or override other plugins' DOM or replace host layout/controls.
+- The settings row uses `settings.general.item`; the stylesheet carrier uses `shell.overlay`. Disabling the plugin removes both and disposes the token layer, without deleting saved preferences.
+- The Electron gate (`window.dshDesktop`, `window.dshPlatform`, or Electron user agent) remains. A plain browser connected to the same Host keeps the built-in theme.
+- The accent key remains `dsh-animal-island.accent`; values are mint, sky, blossom, sun, peach, grape, leaf and coral. Unavailable/invalid storage falls back to mint.
+- Only the default text stack is overridden: Nunito, Noto Sans SC, system Chinese fallbacks. The bundled Nunito Latin variable subset works offline; Noto Sans SC must be installed or system Chinese fallbacks are used. See [Nunito license](<LICENSE-Nunito.txt>).
 
-## Components
+The DSH dynamic client module table supplies React. This plugin follows DSH's token/slot contract instead of importing an independent upstream application, stylesheet or controls. Palettes, typography, motion, focus and restrained depth guide the adaptation; application-only import/prop rules do not map directly to this theme adapter.
 
-The island components are re-implemented from the design system rather than
-imported: a DSH client bundle resolves only the frozen platform module table and
-other DSH client packages (`dsh.client.external`), so an npm React package such
-as `animal-island-ui` cannot be loaded into a hand-written plugin. The accent
-swatches therefore follow the library's own pixel specs — 2px warm outline,
-16px tile radius, `0 4px 0` pixel-stacked foot shadow, `-1px` hover lift, `2px`
-press, `:focus-visible` ring in the island yellow — with the palette values
-taken from `docs/design-system/design-tokens.md` and
-`docs/design-system/components/general.md` in the upstream repository.
+## Install / update
+
+Install the local directory through DSH's plugin manager in the intended profile. This repository uses a local link. Source changes do not guarantee hot reload: replacing an installed bundle may require restarting DSH to load fresh JavaScript, then reopening the desktop interface. Do not start another web server to update the existing GUI.
+
+## Validation
+
+```powershell
+node --check client.js
+node --check index.js
+node --test theme.test.js
+```
+
+The [1.2.0 review record](<../../../.impeccable/review/animal-island-1.2.0.md>) reports **SOURCE ACCEPTED / VISUAL PENDING**. The implementation session recorded **6 passing Node tests** and **1,008 light token values across all eight accents identical to 1.1.0**. Tests cover accent/token behavior, dark foreground contrast and surface ordering, neutral surfaces across accents, desktop activation, preference fallback and resource disposal at the service boundary, without rendering React or a DOM. This documentation-only update did not rerun those checks.
+
+The user's real desktop screenshot showed **1.1.0**, rejected for an oppressive green cast, flat hierarchy and insufficient lightness. It is failure evidence for the old version, **not visual acceptance evidence for 1.2.0**. Static checks do not certify rendered host states, syntax highlighting, focus, menu compositing or layout. The new source has no completed visual acceptance: verify the refreshed/restarted desktop UI in General settings, conversations, tool output, menus and sidebars.
 
 ## Files
 
-| File | Role |
-| --- | --- |
-| `package.json` | Bundle manifest: bundle patch, Web client module, locale and icon exports |
-| `cordis.patch.yml` | Inserts the `theme-animal-island` row |
-| `index.js` | Host half (no Host behavior; the theme is client-side) |
-| `client.js` | Palette tokens, accent store, Settings row, island stylesheet, desktop gate |
-| `locale/en.json`, `locale/zh.json` | Plugin Manager title and description |
-| `icon.svg` | Plugin Manager icon: an island tile with sun, palm, and two waves |
-| `LICENSE-Nunito.txt` | SIL Open Font License 1.1 for the embedded Nunito latin subset |
-
-## Notes
-
-- Disabling or removing the bundle restores the built-in palette, corners,
-  shadows, focus color, and font stack; the Settings row disappears with it.
-- The theme never writes the user's theme preference or font settings.
-- Nunito (latin subset, variable 400–900, 39 KB) is embedded as a `data:` URI so
-  the face renders offline; Chinese text falls back to the library's own
-  `Noto Sans SC → PingFang SC → Microsoft YaHei` chain.
+- [client.js](<client.js>): theme tokens, accent store, settings radio group, stylesheet and desktop gate.
+- [index.js](<index.js>): no-op Host entry; [cordis.patch.yml](<cordis.patch.yml>): existing `theme-animal-island` row.
+- [package.json](<package.json>): manifest, client declaration and exports.
+- [English metadata](<locale/en.json>), [Chinese metadata](<locale/zh.json>): localized display metadata.
+- [icon.svg](<icon.svg>): existing original island icon, retained.
+- [theme.test.js](<theme.test.js>): service-boundary regression and contrast checks.
+- [Design system](<../../../DESIGN.md>), [sidecar](<../../../.impeccable/design.json>): current source-aligned design documentation.

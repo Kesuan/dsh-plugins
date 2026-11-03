@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-03T10:55:11+08:00",
+  "title": "Design System: Animal Island — DSH desktop theme",
+  "extensions": {
+    "colorMeta": {
+      "night-base": {
+        "role": "neutral",
+        "displayName": "暖炭灰阅读底色",
+        "tonalRamp": ["#20201f", "#292928", "#3b3a37", "#44433f", "#64645c", "#909087", "#bdbdb5", "#f5f4ef"]
+      },
+      "night-primary": { "role": "primary", "displayName": "默认薄荷；品牌随八色选择，中性底色不变" },
+      "night-hover": { "role": "neutral", "displayName": "普通 hover 中性洗染；非 18% 品牌选中态" },
+      "night-focus": { "role": "secondary", "displayName": "黄色键盘焦点；非第二品牌色" },
+      "mint-tile": { "role": "primary", "displayName": "薄荷色板原色；非品牌文字色" }
+    },
+    "typographyMeta": {
+      "body": { "displayName": "默认文本栈", "purpose": "用户文本字体优先，不改代码字体或宿主字号。" },
+      "title": { "displayName": "设置标题", "purpose": "仅自有强调色 row。" },
+      "label": { "displayName": "当前颜色名", "purpose": "aria-live polite。" },
+      "helper": { "displayName": "设置说明", "purpose": "最大宽度 65ch。" }
+    },
+    "shadows": [
+      { "name": "day-lv1", "value": "0 2px 4px 0 rgba(61, 52, 40, 0.08)", "purpose": "浅色宿主 shadow-lv1，非 radio 投影。" },
+      { "name": "night-lv1", "value": "0 2px 4px 0 rgba(20, 19, 17, 0.16)", "purpose": "暖炭灰宿主 shadow-lv1。" },
+      { "name": "night-lv2", "value": "0 4px 12px 0 rgba(20, 19, 17, 0.18), 0 2px 6px 0 rgba(20, 19, 17, 0.1)", "purpose": "暖炭灰宿主 shadow-lv2。" },
+      { "name": "night-lv3", "value": "0 12px 28px 0 rgba(20, 19, 17, 0.24), 0 4px 10px 0 rgba(20, 19, 17, 0.12)", "purpose": "暖炭灰宿主 shadow-lv3。" }
+    ],
+    "motion": [
+      { "name": "swatch-transition", "value": "transform .2s cubic-bezier(.4, 0, .2, 1), border-color .2s cubic-bezier(.4, 0, .2, 1)", "purpose": "仅自有色板；hover/active 位移 −1/+1px，reduced-motion 取消过渡与位移。" }
+    ],
+    "breakpoints": []
+  },
+  "components": [
+    {
+      "name": "Animal Island accent radio",
+      "kind": "input",
+      "refersTo": "accent-swatch",
+      "description": "实际自有 44px radio 的薄荷选中初始态；依赖继承的主题变量，不模拟八色存储或当前名称更新，不是宿主控件。",
+      "html": "<label class=\"ds-swatch\" title=\"薄荷青\"><input type=\"radio\" name=\"ds-accent\" aria-label=\"薄荷青\" checked><span class=\"ds-dot\" aria-hidden=\"true\"></span></label>",
+      "css": ".ds-swatch{display:grid;place-items:center;position:relative;box-sizing:border-box;width:44px;height:44px;padding:0;border:2px solid transparent;border-radius:50px;corner-shape:round;background:color-mix(in srgb,#19c8b9 82%,var(--dsw-alias-bg-base));cursor:pointer;transition:transform .2s cubic-bezier(.4,0,.2,1),border-color .2s cubic-bezier(.4,0,.2,1)}.ds-swatch:hover{transform:translateY(-1px)}.ds-swatch:active{transform:translateY(1px)}.ds-swatch:has(input:checked){border-color:var(--dsw-alias-label-primary)}.ds-swatch:has(input:focus-visible){outline:2px solid var(--dsw-focus-ring-color);outline-offset:3px}.ds-swatch input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}.ds-dot{display:none;width:10px;height:10px;border:2px solid var(--dsw-alias-label-primary);border-radius:50%;corner-shape:round;background:var(--dsw-alias-bg-base);pointer-events:none}.ds-swatch:has(input:checked) .ds-dot{display:block}@media(forced-colors:active){.ds-swatch input{opacity:1;appearance:auto}.ds-swatch .ds-dot{display:none}}@media(prefers-reduced-motion:reduce){.ds-swatch{transition:none}.ds-swatch:hover,.ds-swatch:active{transform:none}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "干净暖炭灰 + 少量薄荷",
+    "overview": "本记录对应动物岛插件 1.2.0 source，不是其他插件或宿主的组件规范。用户以真实截图否定 1.1.0 的整屏苔绿：发闷、层级平、不轻盈；当前方向已选择暖炭灰，不再延续旧夜色。浅色保留奶油纸面与暖棕文字，深色以中性表面递亮、灰白文字和局部粉彩组织阅读。",
+    "keyCharacteristics": [
+      "中性底色和文字独立于强调色；薄荷默认，八色选择保留。",
+      "仅 Electron 桌面应用主题，不替换宿主布局、控件或工作流。",
+      "用户文本字体优先，代码字体不变；自有设置使用原生 radio。",
+      "源码与静态检查不等于新版视觉验收。"
+    ],
+    "rules": [
+      { "name": "The Neutral Stays Neutral Rule", "body": "切换强调色只影响指定品牌与交互 token，不染色中性表面、文字和普通 hover。", "section": "colors" }
+    ],
+    "dos": [
+      "**Do** 保留中性层级、八色选择、浅色兼容、用户字体与原生 radio 语义。",
+      "**Do** 区分品牌 18% 选中态与中性普通 hover，保留焦点、forced-colors 和 reduced-motion 分支。"
+    ],
+    "donts": [
+      "**Don't** 恢复整屏苔绿、替换宿主控件或扩展到其他插件。",
+      "**Don't** 把静态测试、旧截图或 source 完成写成新版视觉通过。"
+    ]
+  }
+}

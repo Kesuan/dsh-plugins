@@ -2,11 +2,10 @@
  * Animal Island theme for the DSH desktop client — client half.
  *
  * Design source: the `animal-island-ui` design system (React) and its Vue
- * sibling `animal-island-vue` — warm parchment surfaces, mint teal accent,
- * chunky rounded corners, warm (never cold-black) shadows, a yellow focus ring,
- * and the rounded Nunito typeface. The island controls that the design system
- * specifies with a 2px warm outline and a pixel-stacked foot shadow (the
- * primary button, the app tile) are reproduced for the accent swatches below.
+ * sibling `animal-island-vue` — parchment by day, warm charcoal by night,
+ * soft mint accents, rounded corners, a yellow focus ring, and Nunito type.
+ * This is a DSH token adaptation, not an embedded copy of the React library.
+ * Accent samples are radios, so primary-button stacked shadows do not apply.
  *
  * Three layers make up the theme:
  *
@@ -22,7 +21,7 @@
  *     `shell.overlay` seat: the embedded Nunito face, island text selection,
  *     and the palette-picker component styles. It disappears with the plugin.
  *  3. A Settings row registered into `settings.general.item` under the
- *     Appearance row: eight island app-tile swatches that recolor the accent
+ *     Appearance row: eight island color samples that recolor the accent
  *     (buttons, links, hover washes) and persist in localStorage.
  *
  * The bundle is desktop-only: the row is installed in the `desktop` profile,
@@ -57,11 +56,12 @@ window.__ModuleLoader__.load({
 		 * Expand a primitive ramp.
 		 * @param prefix - CSS variable prefix, without the trailing stop.
 		 * @param stops - stop name → color.
-		 * @returns token names mapped to scheme-independent values.
+		 * @param darkStops - optional night colors with the same stop keys.
+		 * @returns token names mapped to light/dark pairs.
 		 */
-		function ramp(prefix, stops) {
+		function ramp(prefix, stops, darkStops = stops) {
 			const out = {};
-			for (const [stop, value] of Object.entries(stops)) out[`${prefix}-${stop}`] = both(value);
+			for (const [stop, value] of Object.entries(stops)) out[`${prefix}-${stop}`] = split(value, darkStops[stop]);
 			return out;
 		}
 
@@ -109,6 +109,23 @@ window.__ModuleLoader__.load({
 			850: '#3a3122',
 			900: '#221c12',
 			1000: '#120e08',
+		};
+
+		// The screenshot of 1.1.0 showed that green neutral ramps tinted the
+		// entire shell. Keep these warm-charcoal stops independent of accents;
+		// direct primitive consumers (including composer chrome) must stay neutral.
+		const NIGHT_BLUISH = {
+			'00': '#f5f4ef', 50: '#eeede8', 60: '#e9e8e4', 75: '#e3e2de',
+			100: '#dcdbd6', 150: '#d3d2cc', 200: '#c8c7bf', 300: '#bdbdb5',
+			400: '#a7a79e', 500: '#909087', 600: '#797970', 700: '#64645c',
+			750: '#55554e', 800: '#484841', 850: '#3d3d37', 875: '#373732',
+			900: '#323230', 950: '#292928', 1000: '#20201f',
+		};
+		const NIGHT_NEUTRAL = {
+			'00': '#f5f4ef', 50: '#eeede8', 100: '#e3e2de', 150: '#d9d8d2',
+			200: '#cecdc5', 250: '#c5c4bc', 300: '#bdbdb5', 400: '#a7a79e',
+			500: '#909087', 550: '#85857c', 600: '#797970', 700: '#64645c',
+			800: '#44433f', 850: '#3b3a37', 900: '#292928', 1000: '#20201f',
 		};
 
 		/** Island mint, standing in for the shipped deepseek-blue ramp. */
@@ -193,40 +210,39 @@ window.__ModuleLoader__.load({
 				idle: '#c4b89e',
 			},
 			dark: {
-				bgBase: '#1e1a14',
-				bg1: '#29241c',
-				bg2: '#322c22',
-				bg3: '#3a3327',
-				overlay: '#2a241c',
-				module: '#332c22',
-				sidebar: '#231f18',
-				label: '#f4ead8',
-				labelInk: '#fdf8ec',
-				labelDim: '#c0b49c',
-				label2: '#c0b49c',
-				b1: '#f6ead81a',
-				b2: '#f6ead82e',
-				b2thin: '#f6ead814',
-				b3: '#f6ead838',
-				b4: '#f6ead842',
-				hover: '#f6ead814',
-				active: '#f6ead81f',
-				menu: '#2b251c73',
-				menuHeader: '#322c22f0',
-				menuIcon: '#c0b49c',
-				toolbar: '#3a312273',
-				toolbarInvisible: '#1a150f5c',
-				toolbarHover: '#3a312299',
-				switchThumb: '#c4b89e',
-				toastBg: '#332c22',
-				tooltipBg: '#3a3327',
-				tooltipKey: '#4a4234',
-				scroll: '#3a3327',
-				scrollHover: '#4a4234',
-				success: '#85cc45',
-				warn: '#f5c31c',
-				error: '#e87878',
-				idle: '#8a7b66',
+				bgBase: '#292928',
+				bg1: '#323230',
+				bg2: '#3b3a37',
+				bg3: '#44433f',
+				overlay: '#3b3a37',
+				module: '#323230',
+				sidebar: '#20201f',
+				label: '#e9e8e4',
+				labelInk: '#f5f4ef',
+				labelDim: '#d0cfc8',
+				label2: '#bdbdb5',
+				b1: '#f5f4ef12',
+				b2: '#f5f4ef24',
+				b2thin: '#f5f4ef1a',
+				b3: '#f5f4ef36',
+				b4: '#f5f4ef4a',
+				hover: '#f5f4ef0f',
+				menu: '#3b3a37',
+				menuHeader: '#3b3a37',
+				menuIcon: '#d0cfc8',
+				toolbar: '#bdbdb5',
+				toolbarInvisible: '#b8b8af',
+				toolbarHover: '#e9e8e4',
+				switchThumb: '#d3d2cc',
+				toastBg: '#3b3a37',
+				tooltipBg: '#44433f',
+				tooltipKey: '#51504b',
+				scroll: '#64645c',
+				scrollHover: '#909087',
+				success: '#b0cfa0',
+				warn: '#e4c77f',
+				error: '#e5a09a',
+				idle: '#a7a79e',
 			},
 		};
 
@@ -242,7 +258,7 @@ window.__ModuleLoader__.load({
 				ink: '#ffffff',
 				under: '#0b7f75',
 				light: { brand: '#0f9d90', hover: '#12b3a6' },
-				dark: { brand: '#3dd4c6', hover: '#6fe0d3' },
+				dark: { brand: '#8bd5ba', hover: '#a4e2cc' },
 			},
 			{
 				id: 'sky',
@@ -250,7 +266,7 @@ window.__ModuleLoader__.load({
 				ink: '#ffffff',
 				under: '#5a6fd8',
 				light: { brand: '#4e63cf', hover: '#6377e0' },
-				dark: { brand: '#a1b5ff', hover: '#bac8ff' },
+				dark: { brand: '#adbdf0', hover: '#c1cef6' },
 			},
 			{
 				id: 'blossom',
@@ -258,7 +274,7 @@ window.__ModuleLoader__.load({
 				ink: '#7a2f42',
 				under: '#e07f8f',
 				light: { brand: '#c05a7a', hover: '#d06a89' },
-				dark: { brand: '#ffb8c3', hover: '#ffcbd3' },
+				dark: { brand: '#e6afba', hover: '#efc4cc' },
 			},
 			{
 				id: 'sun',
@@ -266,7 +282,7 @@ window.__ModuleLoader__.load({
 				ink: '#6b4a12',
 				under: '#d8ab41',
 				light: { brand: '#a97c17', hover: '#c08f22' },
-				dark: { brand: '#f7cd67', hover: '#ffdd8a' },
+				dark: { brand: '#e4c77f', hover: '#eed89f' },
 			},
 			{
 				id: 'peach',
@@ -274,7 +290,7 @@ window.__ModuleLoader__.load({
 				ink: '#ffffff',
 				under: '#c06a4c',
 				light: { brand: '#bf6440', hover: '#cf7550' },
-				dark: { brand: '#f0a184', hover: '#f7b59c' },
+				dark: { brand: '#e2ad91', hover: '#edc3ac' },
 			},
 			{
 				id: 'grape',
@@ -282,7 +298,7 @@ window.__ModuleLoader__.load({
 				ink: '#ffffff',
 				under: '#9257c9',
 				light: { brand: '#8b53c4', hover: '#9a62d3' },
-				dark: { brand: '#c99bf5', hover: '#d8b3ff' },
+				dark: { brand: '#c5b0e4', hover: '#d6c4ef' },
 			},
 			{
 				id: 'leaf',
@@ -290,7 +306,7 @@ window.__ModuleLoader__.load({
 				ink: '#1f4a1f',
 				under: '#66a866',
 				light: { brand: '#4f8f4f', hover: '#5c9c5c' },
-				dark: { brand: '#9ed69e', hover: '#b3e3b3' },
+				dark: { brand: '#b0cfa0', hover: '#c5dfb8' },
 			},
 			{
 				id: 'coral',
@@ -298,7 +314,7 @@ window.__ModuleLoader__.load({
 				ink: '#ffffff',
 				under: '#d24a5a',
 				light: { brand: '#c4473f', hover: '#d2544b' },
-				dark: { brand: '#ff8b85', hover: '#ffa19c' },
+				dark: { brand: '#e5a09a', hover: '#efb8b2' },
 			},
 		];
 
@@ -306,6 +322,21 @@ window.__ModuleLoader__.load({
 		function accentById(id) {
 			for (const accent of ACCENTS) if (accent.id === id) return accent;
 			return ACCENTS[0];
+		}
+
+		/** Dark primitive consumers must follow the chosen accent too. */
+		function nightBrandRamp(accent) {
+			const weights = { 50: 12, 100: 24, 200: 42, 300: 65, 400: 85, 450: 95, 500: 100 };
+			const out = {};
+			for (const stop of Object.keys(MINT)) {
+				if (stop in weights) {
+					out[stop] = `color-mix(in srgb, ${accent.dark.brand} ${weights[stop]}%, ${ISLAND.dark.labelInk})`;
+				} else {
+					const weight = { 600: 78, '700-delete': 55, 800: 32, 900: 18, 950: 10 }[stop];
+					out[stop] = `color-mix(in srgb, ${accent.dark.brand} ${weight}%, ${ISLAND.dark.bgBase})`;
+				}
+			}
+			return out;
 		}
 
 		/**
@@ -323,9 +354,9 @@ window.__ModuleLoader__.load({
 				'--dsh-font-family-text-default': both(FONT_STACK),
 
 				// ── Warm primitives ─────────────────────────────────────────────
-				...ramp('--dsw-static-neutral-bluish', BLUISH),
-				...ramp('--dsw-static-neutral', NEUTRAL),
-				...ramp('--dsw-static-deepseek', MINT),
+				...ramp('--dsw-static-neutral-bluish', BLUISH, NIGHT_BLUISH),
+				...ramp('--dsw-static-neutral', NEUTRAL, NIGHT_NEUTRAL),
+				...ramp('--dsw-static-deepseek', MINT, nightBrandRamp(accent)),
 				...ramp('--dsw-static-green', GREEN),
 				...ramp('--dsw-static-red', RED),
 				...ramp('--dsw-static-amber', AMBER),
@@ -364,12 +395,15 @@ window.__ModuleLoader__.load({
 				'--dsw-alias-state-business-primary': split(brandL, brandD),
 				'--dsw-alias-interactive-bg-hover-accent': split(
 					`color-mix(in srgb, ${brandL} 16%, transparent)`,
-					`color-mix(in srgb, ${brandD} 22%, transparent)`,
+					`color-mix(in srgb, ${brandD} 12%, transparent)`,
 				),
 
 				// ── Interaction washes ──────────────────────────────────────────
 				'--dsw-alias-interactive-bg-hover': split(L.hover, D.hover),
-				'--dsw-alias-interactive-bg-active': split(L.active, D.active),
+				'--dsw-alias-interactive-bg-active': split(
+					L.active,
+					`color-mix(in srgb, ${brandD} 18%, transparent)`,
+				),
 				'--dsw-alias-interactive-bg-hover-danger': split(
 					'rgba(224, 90, 90, 0.12)',
 					'rgba(232, 120, 120, 0.18)',
@@ -397,7 +431,10 @@ window.__ModuleLoader__.load({
 				'--dsw-alias-scrollbar-bg-l2': split(L.scroll, D.scroll),
 				'--dsw-alias-scrollbar-hover-l1': split(L.scrollHover, D.scrollHover),
 				'--dsw-alias-scrollbar-hover-l2': split(L.scrollHover, D.scrollHover),
-				'--dsw-alias-bg-document-selection': both('rgba(25, 200, 185, 0.28)'),
+				'--dsw-alias-bg-document-selection': split(
+					'rgba(25, 200, 185, 0.28)',
+					`color-mix(in srgb, ${brandD} 24%, transparent)`,
+				),
 
 				// ── Thinking overlays (shipped literal gradients) ───────────────
 				'--dsw-linear-gradient-think': split(
@@ -410,19 +447,24 @@ window.__ModuleLoader__.load({
 				),
 
 				// ── Island geometry: rounder corners and warm, never cold, shadows
-				'--dsw-radius-xs': both('6px'),
-				'--dsw-radius-sm': both('10px'),
-				'--dsw-radius-md': both('14px'),
+				'--dsw-radius-xs': split('6px', '12px'),
+				'--dsw-radius-sm': split('10px', '12px'),
+				'--dsw-radius-md': split('14px', '18px'),
 				'--dsw-radius-lg': both('20px'),
 				'--dsw-radius-xl': both('24px'),
 				'--dsw-radius-panel': both('28px'),
 				'--dsw-corner-shape': both('superellipse(1.3)'),
-				'--dsw-shadow-lv1': both('0 2px 4px 0 rgba(61, 52, 40, 0.08)'),
-				'--dsw-shadow-lv2': both(
-					'0 4px 12px 0 rgba(61, 52, 40, 0.04), 0 2px 8px 0 rgba(61, 52, 40, 0.06)',
+				'--dsw-shadow-lv1': split(
+					'0 2px 4px 0 rgba(61, 52, 40, 0.08)',
+					'0 2px 4px 0 rgba(20, 19, 17, 0.16)',
 				),
-				'--dsw-shadow-lv3': both(
+				'--dsw-shadow-lv2': split(
+					'0 4px 12px 0 rgba(61, 52, 40, 0.04), 0 2px 8px 0 rgba(61, 52, 40, 0.06)',
+					'0 4px 12px 0 rgba(20, 19, 17, 0.18), 0 2px 6px 0 rgba(20, 19, 17, 0.1)',
+				),
+				'--dsw-shadow-lv3': split(
 					'0 0 1px 0 rgba(61, 52, 40, 0.18), 0 0 4px 0 rgba(61, 52, 40, 0.03), 0 12px 32px 0 rgba(61, 52, 40, 0.1)',
+					'0 12px 28px 0 rgba(20, 19, 17, 0.24), 0 4px 10px 0 rgba(20, 19, 17, 0.12)',
 				),
 
 				// ── Yellow focus ring: the island never uses a blue focus color ──
@@ -443,7 +485,7 @@ window.__ModuleLoader__.load({
 			return ACCENTS[0].id;
 		}
 
-		let accentId = readAccentId();
+		let accentId = ACCENTS[0].id;
 		const accentListeners = new Set();
 
 		/** @returns the active accent id (React external-store snapshot). */
@@ -475,7 +517,7 @@ window.__ModuleLoader__.load({
 		// ── Locale dictionaries ─────────────────────────────────────────────────
 		const en = {
 			'row.title': 'Island accent',
-			'row.hint': 'Recolors buttons, links, and hover washes. The rest of the palette stays on the island.',
+			'row.hint': 'A little island color for buttons, links, and selection. The reading surface stays neutral in dark mode.',
 			'accent.mint': 'Mint teal',
 			'accent.sky': 'Sky blue',
 			'accent.blossom': 'Blossom pink',
@@ -488,7 +530,7 @@ window.__ModuleLoader__.load({
 
 		const zh = {
 			'row.title': '小岛强调色',
-			'row.hint': '只改变按钮、链接和悬停色；其余配色仍然是小岛的奶油纸面。',
+			'row.hint': '给按钮、链接和选中态添一点小岛色彩；深色阅读区保持干净中性。',
 			'accent.mint': '薄荷青',
 			'accent.sky': '天空蓝',
 			'accent.blossom': '樱花粉',
@@ -512,83 +554,100 @@ window.__ModuleLoader__.load({
 }
 
 ::selection {
-  background: rgba(25, 200, 185, 0.28);
+  background: var(--dsw-alias-bg-document-selection);
 }
 
-/* Island accent row (settings.general.item), patterned after the shipped
-   Appearance row: bottom hairline, 16px vertical padding, a 14px title. */
+/* Only our own settings row is styled. Host controls remain host-owned. */
 .aia-row {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   box-sizing: border-box;
   padding: 16px 0;
   border-bottom: .5px solid var(--dsw-alias-border-l2);
 }
 .aia-head {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
 }
 .aia-title {
   color: var(--dsw-alias-label-primary);
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 22px;
 }
+.aia-current {
+  color: var(--dsw-alias-label-primary-dimmed);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+}
 .aia-hint {
+  margin: 0;
+  max-width: 65ch;
   color: var(--dsw-alias-label-secondary);
   font-size: 12px;
-  line-height: 18px;
+  font-weight: 400;
+  line-height: 20px;
 }
 .aia-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  padding: 2px 2px 8px;
+  padding: 4px;
 }
-/* The island game button: 2px warm outline, rounded tile, pixel-stacked foot
-   shadow that lifts on hover and presses down on click. */
+/* A radio color sample is not a primary action: no stacked foot shadow.
+   Native radios supply Tab, arrows, Home/End where supported, and Space. */
 .aia-swatch {
+  display: grid;
+  place-items: center;
   position: relative;
+  flex: 0 0 44px;
   box-sizing: border-box;
   width: 44px;
   height: 44px;
   padding: 0;
-  border: 2px solid color-mix(in srgb, #794f27 14%, transparent);
-  border-radius: 16px;
-  background: var(--aia-tile, #19c8b9);
-  box-shadow: 0 4px 0 0 var(--aia-under, #0b7f75);
-  font: inherit;
+  border: 2px solid transparent;
+  border-radius: 50px;
+  corner-shape: round;
+  background: color-mix(in srgb, var(--animal-swatch-color) 82%, var(--dsw-alias-bg-base));
   cursor: pointer;
-  transition: transform .25s cubic-bezier(.4, 0, .2, 1), box-shadow .25s cubic-bezier(.4, 0, .2, 1),
-    border-color .25s cubic-bezier(.4, 0, .2, 1);
+  transition: transform .2s cubic-bezier(.4, 0, .2, 1),
+    border-color .2s cubic-bezier(.4, 0, .2, 1);
 }
-.aia-swatch:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 5px 0 0 var(--aia-under, #0b7f75);
+.aia-swatch:hover { transform: translateY(-1px); }
+.aia-swatch:active { transform: translateY(1px); }
+.aia-swatch:has(input:checked) {
+  border-color: var(--dsw-alias-label-primary);
 }
-.aia-swatch:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 0 var(--aia-under, #0b7f75);
-}
-.aia-swatch[aria-checked="true"] {
-  border-color: var(--dsw-alias-label-primary, #794f27);
-}
-.aia-swatch:focus-visible {
-  outline: 2px solid var(--dsw-focus-ring-color, #ffcc00);
+.aia-swatch:has(input:focus-visible) {
+  outline: 2px solid var(--dsw-focus-ring-color);
   outline-offset: 3px;
 }
-.aia-check {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.aia-radio {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  color: var(--aia-ink, #ffffff);
-  font-size: 18px;
-  font-weight: 900;
-  line-height: 1;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.aia-check {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--dsw-alias-label-primary);
+  border-radius: 50%;
+  corner-shape: round;
+  background: var(--dsw-alias-bg-base);
+  pointer-events: none;
+}
+@media (forced-colors: active) {
+  .aia-radio { opacity: 1; appearance: auto; }
+  .aia-check { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .aia-swatch { transition: none; }
@@ -614,39 +673,40 @@ window.__ModuleLoader__.load({
 		 */
 		function AccentRow({ t }) {
 			const active = React.useSyncExternalStore(subscribeAccent, getAccentId);
+			const groupId = React.useId();
 			return h(
 				'div',
 				{ className: 'aia-row' },
 				h(
 					'div',
 					{ className: 'aia-head' },
-					h('span', { className: 'aia-title' }, t('row.title')),
-					h('span', { className: 'aia-hint' }, t('row.hint')),
+					h('span', { className: 'aia-title', id: `${groupId}-title` }, t('row.title')),
+					h('span', { className: 'aia-current', 'aria-live': 'polite' }, t(`accent.${active}`)),
 				),
+				h('p', { className: 'aia-hint', id: `${groupId}-hint` }, t('row.hint')),
 				h(
 					'div',
-					{ className: 'aia-grid', role: 'radiogroup', 'aria-label': t('row.title') },
+					{
+						className: 'aia-grid', role: 'radiogroup',
+						'aria-labelledby': `${groupId}-title`, 'aria-describedby': `${groupId}-hint`,
+					},
 					ACCENTS.map((accent) => {
 						const selected = accent.id === active;
 						const label = t(`accent.${accent.id}`);
 						return h(
-							'button',
+							'label',
 							{
 								key: accent.id,
-								type: 'button',
-								role: 'radio',
-								'aria-checked': selected,
-								'aria-label': label,
 								title: label,
 								className: 'aia-swatch',
-								style: {
-									'--aia-tile': accent.tile,
-									'--aia-ink': accent.ink,
-									'--aia-under': accent.under,
-								},
-								onClick: () => setAccentId(accent.id),
+								style: { '--animal-swatch-color': accent.tile },
 							},
-							selected ? h('span', { className: 'aia-check', 'aria-hidden': 'true' }, '✓') : null,
+							h('input', {
+								type: 'radio', name: groupId, value: accent.id, checked: selected,
+								className: 'aia-radio', 'aria-label': label,
+								onChange: () => setAccentId(accent.id),
+							}),
+							selected ? h('span', { className: 'aia-check', 'aria-hidden': 'true' }) : null,
 						);
 					}),
 				),
@@ -683,14 +743,18 @@ window.__ModuleLoader__.load({
 					'animal-island: dictionaries',
 				);
 
+				// Read preferences only on activation, never in the module factory.
+				accentId = readAccentId();
+
 				// One token layer for the whole palette. Changing the accent
 				// re-registers the same source, which replaces the layer and
 				// restacks it on top, so no second layer is ever introduced.
 				ctx.effect(() => {
 					let dispose = ctx.theme.overrideTokens(PKG, buildTokens(accentById(getAccentId())));
 					const off = subscribeAccent((id) => {
-						if (dispose) dispose();
+						const previous = dispose;
 						dispose = ctx.theme.overrideTokens(PKG, buildTokens(accentById(id)));
+						if (previous) previous(); // stale-layer disposal is a safe no-op
 					});
 					return () => {
 						off();
