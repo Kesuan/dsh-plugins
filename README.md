@@ -12,7 +12,10 @@
 │   │   ├── dsh-theme-animal-island/
 │   │   └── dsh-theme-claude-code/
 │   └── tools/                       # 功能类：给界面/工作流增加能力
+│       ├── dsh-godot-debug/         # 右侧侧边栏预览当前会话的 Godot 项目
 │       └── dsh-session-delete/
+├── third_party/                     # 第三方插件引用（git submodule，不计入自研插件）
+│   └── dsh-rewind-plugin/
 ├── LICENSE
 └── README.md
 ```
@@ -25,20 +28,31 @@
 | --- | --- | --- | --- |
 | [dsh-theme-animal-island](plugins/themes/dsh-theme-animal-island/README.md) | themes | 1.2.0 | 动物岛风格主题：浅色奶油纸面、深色暖炭灰、局部薄荷点缀、Nunito 字体，设置页带八种岛屿强调色；设计语言参考 guokaigdg 的 [animal-island-ui](https://github.com/guokaigdg/animal-island-ui) |
 | [dsh-theme-claude-code](plugins/themes/dsh-theme-claude-code/README.md) | themes | 1.0.0 | Claude Code 配色：暖纸/暖炭底色，明暗两套色值跟随系统外观 |
+| [dsh-godot-debug](plugins/tools/dsh-godot-debug/README.md) | tools | 0.3.0 | 在当前会话的 DSH 右侧栏内嵌预览该会话的 Godot Web 调试版，并显示浏览器控制台日志 |
 | [dsh-session-delete](plugins/tools/dsh-session-delete/README.md) | tools | 0.1.0 | 在侧边栏会话菜单中加入「删除会话…」，二次确认后从磁盘移除会话及其检查点 |
+
+## 第三方插件引用
+
+第三方插件不放进 `plugins/`，而是以 git submodule 固定在 `third_party/`，避免与自研代码混淆，也便于跟随上游更新。详见 [third_party/README.md](third_party/README.md)。
+
+| 插件 | 版本 | 说明 |
+| --- | --- | --- |
+| [dsh-rewind-plugin](third_party/README.md) | v0.19.1 | Claude Code 风格 `/rewind` / `/undo`：对话就地回退，可选还原 Agent 改过的文件 |
 
 ## 本机安装
 
 推荐以 `link:` 方式链接进目标 profile；桌面端通常是 `~/.dsh/profiles/desktop`，
 但应以当前 `DSH_PROFILE` / `DSH_PROFILE_DIR` 或用户指定值为准。
 链接指向本仓库源码；安装后刷新现有 GUI 加载客户端模块，不保证源码修改无需构建就能热更新。
+四个自研插件都按此方式安装；第三方 `dsh-rewind-plugin` 同样以 `link:` 指向
+`third_party/dsh-rewind-plugin`，首次构建和更新方式见 [third_party/README.md](third_party/README.md)。
 
 ### 安装全部插件
 
 在仓库根运行（`dsh` 已在 PATH 时）：
 
 ```bash
-dsh plugin --profile desktop add link:"$PWD/plugins/themes/dsh-theme-animal-island" link:"$PWD/plugins/themes/dsh-theme-claude-code" link:"$PWD/plugins/tools/dsh-session-delete"
+dsh plugin --profile desktop add link:"$PWD/plugins/themes/dsh-theme-animal-island" link:"$PWD/plugins/themes/dsh-theme-claude-code" link:"$PWD/plugins/tools/dsh-godot-debug" link:"$PWD/plugins/tools/dsh-session-delete"
 ```
 
 Windows PowerShell 中，若 `dsh` 不在 PATH，可使用应用自带 CLI。
@@ -50,6 +64,7 @@ $repo = (Get-Location).Path
 & $dsh plugin --profile desktop add `
   "link:$repo/plugins/themes/dsh-theme-animal-island" `
   "link:$repo/plugins/themes/dsh-theme-claude-code" `
+  "link:$repo/plugins/tools/dsh-godot-debug" `
   "link:$repo/plugins/tools/dsh-session-delete"
 if ($LASTEXITCODE -ne 0) { throw '插件安装失败' }
 ```
@@ -89,6 +104,7 @@ Windows 打包版 CLI / ASAR 注意事项、备份与故障处理、分层验证
 - 有测试的插件用 Node 内置测试运行器：
 
   ```bash
+  cd plugins/tools/dsh-godot-debug && node --test
   cd plugins/tools/dsh-session-delete && node --test
   ```
 
