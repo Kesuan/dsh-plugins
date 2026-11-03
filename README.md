@@ -29,29 +29,57 @@
 
 ## 本机安装
 
-三个插件目前都以 `link:` 方式链接进桌面端 profile（`~/.dsh/profiles/desktop`），
-链接指向本仓库的对应目录，修改插件代码即时生效。
+推荐以 `link:` 方式链接进目标 profile；桌面端通常是 `~/.dsh/profiles/desktop`，
+但应以当前 `DSH_PROFILE` / `DSH_PROFILE_DIR` 或用户指定值为准。
+链接指向本仓库源码；安装后刷新现有 GUI 加载客户端模块，不保证源码修改无需构建就能热更新。
 
-安装/更新一个本地插件，任选一种：
+### 安装全部插件
 
-1. 桌面端 **Settings → Plugins**，选择插件目录安装本地插件；
-2. 命令行（`dsh` 不在 PATH 时用应用内的 `DeepSeek Harness.app/Contents/Resources/runtime/cli/bin/dsh`）：
+在仓库根运行（`dsh` 已在 PATH 时）：
 
-   ```bash
-   dsh plugin --profile desktop add link:"$PWD/plugins/themes/dsh-theme-claude-code"
-   ```
+```bash
+dsh plugin --profile desktop add link:"$PWD/plugins/themes/dsh-theme-animal-island" link:"$PWD/plugins/themes/dsh-theme-claude-code" link:"$PWD/plugins/tools/dsh-session-delete"
+```
 
-3. 直接改 profile 并重装链接：
+Windows PowerShell 中，若 `dsh` 不在 PATH，可使用应用自带 CLI。
+以下安装路径是本机实测值，其他机器请替换 `$dsh`：
 
-   ```bash
-   cd ~/.dsh/profiles/desktop
-   pnpm add link:/Users/kesuan/项目/dsh-plugins/plugins/themes/dsh-theme-claude-code
-   ```
+```powershell
+$dsh = 'D:\Applications\DeepSeekHarness\resources\runtime\cli\bin\dsh.cmd'
+$repo = (Get-Location).Path
+& $dsh plugin --profile desktop add `
+  "link:$repo/plugins/themes/dsh-theme-animal-island" `
+  "link:$repo/plugins/themes/dsh-theme-claude-code" `
+  "link:$repo/plugins/tools/dsh-session-delete"
+if ($LASTEXITCODE -ne 0) { throw '插件安装失败' }
+```
 
-装好后还要把包名加入 profile `package.json` 的 `dsh.profile.bundles`（插件管理器会自动处理），
-插件才会随应用启动加载。
+macOS 未加入 PATH 时，使用实际应用目录内的
+`DeepSeek Harness.app/Contents/Resources/runtime/cli/bin/dsh`。
+也可在桌面端 **Settings → Plugins** 中逐个选择插件目录安装。
+
+### 安装验证与注意事项
+
+- 安装前备份目标 profile 的 manifest、锁文件、workspace 设置和用户补丁；保留无关配置。
+- 当前版本 DSH CLI 会把新增 bundle 依赖自动加入 `package.json` 的 `dsh.profile.bundles`；
+  直接执行系统 `pnpm add` 不保证注册。安装后仍应核验依赖、bundle 清单和链接的真实路径。
+- 已安装但禁用的 bundle 不一定会因重复 `add` 而启用；按用户意图在插件设置中处理。
+- 两个主题都可安装，但会覆盖同一组外观 token，建议在插件设置中一次只启用一个。
+  Animal Island 只在 Electron 桌面端应用主题，普通浏览器不应用该主题。
+- 会话删除插件的隔离测试：在 `plugins/tools/dsh-session-delete` 下运行 `node --test`。
+  不要通过删除真实会话验证安装；删除操作不可撤销。
+- 安装后刷新当前 GUI，检查插件列表及会话菜单。后端可用 GET `/local/session-delete`
+  返回预期的 HTTP 405 验证路由已加载，该请求不会删除会话。
+
+### 项目级 Skill
+
+[install-dsh-plugins](.agents/skills/install-dsh-plugins/SKILL.md) 已沉淀完整操作步骤、
+Windows 打包版 CLI / ASAR 注意事项、备份与故障处理、分层验证及主题共存说明。
+在本项目的 DSH 会话中可直接要求使用 `install-dsh-plugins` 安装或核验插件。
 
 ## 开发约定
+
+代理协作、插件生命周期、安全边界、测试与提交要求见 [AGENTS.md](AGENTS.md)。
 
 - 每个插件目录自包含：`package.json`、宿主入口 `index.js`、客户端入口 `client.js`、
   bundle 补丁 `cordis.patch.yml`、`locale/` 与图标。
