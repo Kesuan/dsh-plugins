@@ -3,7 +3,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
-import { buildGodotArgv, findGodotProject, GodotDebugController, GodotDebugError } from '../server.js';
+import { buildGodotArgv, findGodotProject, GodotDebugController, GodotDebugError, readViewportSize } from '../server.js';
 
 /** Build a project directory that passes Host-side validation. */
 function projectFixture() {
@@ -20,6 +20,41 @@ test('findGodotProject resolves the nearest project ancestor', () => {
 		assert.equal(findGodotProject(nested), root);
 		assert.equal(findGodotProject(root), root);
 		assert.equal(findGodotProject('/'), undefined);
+	} finally {
+		rmSync(root, { recursive: true, force: true });
+	}
+});
+
+test('readViewportSize reads the authored design resolution, not the window override', () => {
+	const root = mkdtempSync(join(tmpdir(), 'dsh-godot-debug-'));
+	writeFileSync(
+		join(root, 'project.godot'),
+		'config_version=5\n\n[display]\n\nwindow/size/viewport_width=1080\nwindow/size/viewport_height=2340\nwindow/size/window_width_override=432\nwindow/size/window_height_override=936\n',
+	);
+	try {
+		assert.deepEqual(readViewportSize(root), { width: 1080, height: 2340 });
+	} finally {
+		rmSync(root, { recursive: true, force: true });
+	}
+});
+
+test('readViewportSize falls back to the Godot default without a display section', () => {
+	const root = projectFixture();
+	try {
+		assert.deepEqual(readViewportSize(root), { width: 1152, height: 648 });
+	} finally {
+		rmSync(root, { recursive: true, force: true });
+	}
+});
+
+test('readViewportSize ignores malformed and non-positive values', () => {
+	const root = mkdtempSync(join(tmpdir(), 'dsh-godot-debug-'));
+	writeFileSync(
+		join(root, 'project.godot'),
+		'[display]\n\nwindow/size/viewport_width=0\nwindow/size/viewport_height=abc\n',
+	);
+	try {
+		assert.deepEqual(readViewportSize(root), { width: 1152, height: 648 });
 	} finally {
 		rmSync(root, { recursive: true, force: true });
 	}

@@ -130,6 +130,20 @@ window.__ModuleLoader__.load({
 		}
 
 		/**
+		 * The Host reports the project's design resolution so the preview iframe
+		 * can take the game's own aspect ratio. A malformed value stays `null`
+		 * and the frame fills the stage (the engine's own stretch letterboxes).
+		 */
+		function normalizeViewport(value) {
+			const width = Number(value?.width);
+			const height = Number(value?.height);
+			if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+				return null;
+			}
+			return { width, height };
+		}
+
+		/**
 		 * Detect whether one Session's working directory is inside a Godot
 		 * project. The Host reads the durable Session header and walks upward to
 		 * `project.godot`, so this also works for cold Sessions.
@@ -158,6 +172,7 @@ window.__ModuleLoader__.load({
 									typeof data.projectName === 'string' && data.projectName !== ''
 										? data.projectName
 										: data.projectPath.split('/').filter(Boolean).at(-1) || 'Godot',
+								viewport: normalizeViewport(data.viewport),
 							});
 						} else {
 							setContext({ status: 'unavailable', reason: data.reason });
@@ -463,6 +478,7 @@ window.__ModuleLoader__.load({
 
 			const busy = preview.building;
 			const web = preview.web;
+			const viewport = context.viewport ?? null;
 			const stage = busy
 				? h(
 						'div',
@@ -481,6 +497,15 @@ window.__ModuleLoader__.load({
 					: web !== null && typeof web.url === 'string'
 						? h('iframe', {
 								className: 'gp-frame',
+								'data-ratio': viewport === null ? undefined : '',
+								style:
+									viewport === null
+										? undefined
+										: {
+												'--gp-w': String(viewport.width),
+												'--gp-h': String(viewport.height),
+												aspectRatio: `${viewport.width} / ${viewport.height}`,
+											},
 								src: web.url,
 								title: t('tabTitle'),
 								allow: 'autoplay; fullscreen; gamepad',
@@ -685,8 +710,22 @@ window.__ModuleLoader__.load({
 .gp-button:focus-visible { outline: none; box-shadow: 0 0 0 var(--dsw-focus-ring-width) var(--dsw-focus-ring-color); }
 .gp-button:disabled { opacity: .45; cursor: default; }
 .gp-button-primary { border-color: transparent; background: var(--dsw-alias-brand-primary); color: var(--dsw-static-neutral-00); }
-.gp-stage { display: flex; flex: 1 1 auto; min-height: 0; overflow: hidden; background: var(--dsw-static-neutral-1000); }
+.gp-stage { display: flex; flex: 1 1 auto; align-items: center; justify-content: center; min-height: 0; overflow: hidden; background: var(--dsw-static-neutral-1000); }
 .gp-frame { display: block; width: 100%; height: 100%; border: 0; background: var(--dsw-static-neutral-1000); }
+/* Give the iframe the game's authored aspect ratio. The engine sizes the Web
+   canvas from the iframe, and stretch/aspect=expand makes the viewport follow
+   the canvas, so a frame that matches the design resolution keeps the level's
+   framing exact: no letterbox bars, no stretched lens. The min() picks the
+   largest frame that still fits when the Sidebar is narrower than the game. */
+@supports (width: 1cqw) {
+  .gp-stage { container-type: size; }
+  .gp-frame[data-ratio] {
+    width: min(100cqw, calc(100cqh * var(--gp-w) / var(--gp-h)));
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
 .gp-state {
   display: flex;
   flex-direction: column;

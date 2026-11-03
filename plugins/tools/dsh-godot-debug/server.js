@@ -11,7 +11,7 @@
  * header and a same-origin check so a normal cross-origin page cannot start a
  * process.
  */
-import { existsSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { basename, dirname, isAbsolute, join, resolve } from 'node:path';
 import { GodotWebExporter, WebBuildError } from './web.js';
 
@@ -32,6 +32,9 @@ const DEFAULT_PROJECT_PATH = '/Users/kesuan/项目/Project-Flow';
 
 /** Default Godot editor binary on macOS. */
 const DEFAULT_GODOT_EXECUTABLE = '/Applications/Godot.app/Contents/MacOS/Godot';
+
+/** Godot 4's design viewport when a project has no `[display]` overrides. */
+const DEFAULT_VIEWPORT = { width: 1152, height: 648 };
 
 /**
  * Wait for a done promise without leaving a live timeout once it settles.
@@ -206,6 +209,38 @@ export function findGodotProject(start) {
 		current = parent;
 	}
 	return undefined;
+}
+
+/** Read one positive integer assigned on its own line of `project.godot`. */
+function readProjectInt(text, key, fallback) {
+	const match = new RegExp(`^\\s*${key}\\s*=\\s*(\\d+)\\s*$`, 'm').exec(text);
+	if (match === null) return fallback;
+	const value = Number.parseInt(match[1], 10);
+	return Number.isInteger(value) && value > 0 ? value : fallback;
+}
+
+/**
+ * The authored design resolution, used by the preview pane to give the iframe
+ * the game's own aspect ratio: the canvas then matches the framing the level
+ * was built for (no letterbox bars, no stretched lens).
+ *
+ * This is `display/window/size/viewport_*`, not `window_width_override`: the
+ * override is the desktop window size, while the viewport is the author's frame.
+ *
+ * @param projectPath - directory containing `project.godot`.
+ * @returns `{ width, height }`, falling back to Godot 4's 1152x648 default.
+ */
+export function readViewportSize(projectPath) {
+	let text = '';
+	try {
+		text = readFileSync(join(projectPath, 'project.godot'), 'utf8');
+	} catch {
+		return { ...DEFAULT_VIEWPORT };
+	}
+	return {
+		width: readProjectInt(text, 'window/size/viewport_width', DEFAULT_VIEWPORT.width),
+		height: readProjectInt(text, 'window/size/viewport_height', DEFAULT_VIEWPORT.height),
+	};
 }
 
 /** Validate the extra arguments supplied by the panel. */
@@ -626,6 +661,7 @@ export function apply(ctx, config = {}) {
 			available: true,
 			projectPath,
 			projectName: basename(projectPath),
+			viewport: readViewportSize(projectPath),
 			cwd,
 		});
 	};

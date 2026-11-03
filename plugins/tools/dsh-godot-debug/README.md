@@ -12,6 +12,7 @@
 - 自动构建并复用同一项目的最近一次 Web 调试导出；切换会话时会重新解析该项目。
 - 预览页顶部显示项目名与路径，支持 **重新构建** 和 **在浏览器打开**。
 - 底部控制台实时读取 Godot Web 导出的浏览器 console，可切换「只看问题」。
+- 预览画面按项目的设计分辨率（`display/window/size/viewport_*`）自适应侧栏比例：竖屏项目保持竖屏，不拉伸、无 letterbox 黑边。
 - 项目检测、构建和运行都从 Host 发起；前端参数通过 loopback 同源接口传递，不经过 shell。
 - 构建使用系统临时目录中的项目副本，**不会修改原项目目录**。
 
@@ -25,7 +26,7 @@
    - 加入 `Web` 导出预设和 `gl_compatibility` 渲染覆盖；
    - 运行 `godot --headless --import` 和 `--export-debug Web`；
    - 由仅绑定 `127.0.0.1` 的静态服务器提供页面。
-5. 右侧栏 iframe 显示游戏画面，底部显示浏览器控制台。
+5. 右侧栏 iframe 按项目设计比例居中显示游戏画面（侧栏太窄时整体等比缩小），底部显示浏览器控制台。
 
 ## 安装
 
@@ -52,7 +53,7 @@ dsh plugin --profile desktop add link:"$PWD/plugins/tools/dsh-godot-debug"
 | 文件 | 职责 |
 | --- | --- |
 | `index.js` | Host 包入口，重新导出 `server.js` 的插件导出。 |
-| `server.js` | 读取 Session `cwd`、查找 `project.godot`，注册上下文、Web 构建和日志路由。 |
+| `server.js` | 读取 Session `cwd`、查找 `project.godot`、读取设计分辨率，注册上下文、Web 构建和日志路由。 |
 | `web.js` | 临时项目副本、Web 导出构建、静态预览服务器、浏览器控制台桥接。 |
 | `client.js` | 注册右侧栏 guide 卡片、会话标题入口、`sidebarRightTabs` 页面类型与 `sidebar.right.pane.tab` 页面主体。 |
 | `cordis.patch.yml` | Bundle 行、默认 Godot 可执行文件。 |
