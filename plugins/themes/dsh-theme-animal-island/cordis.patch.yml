@@ -1,0 +1,3 @@
+- insert:
+    - id: theme-animal-island
+      name: '@local/dsh-theme-animal-island'

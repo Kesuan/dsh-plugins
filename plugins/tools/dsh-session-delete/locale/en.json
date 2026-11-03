@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Session Delete",
+    "description": "Adds a confirmed permanent-delete action to each Session's sidebar menu. The action stops the Session's work, removes its stored log, and releases its archive and pin bookkeeping."
+  }
+}

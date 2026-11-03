@@ -1,0 +1,3 @@
+- insert:
+    - id: theme-claude-code
+      name: '@local/dsh-theme-claude-code'
