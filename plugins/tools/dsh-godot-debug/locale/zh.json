@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Godot 预览",
+    "description": "在 DSH 右侧侧边栏预览当前会话的 Godot 项目，使用调试版 Web 导出并显示浏览器控制台日志。"
+  }
+}

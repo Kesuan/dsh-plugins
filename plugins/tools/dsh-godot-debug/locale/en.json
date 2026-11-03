@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Godot Preview",
+    "description": "Preview the current Session's Godot project in the right Sidebar with a debug Web export and browser console output."
+  }
+}

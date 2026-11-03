@@ -1,0 +1,5 @@
+- insert:
+    - id: godot-debug
+      name: '@local/dsh-godot-debug'
+      config:
+        godotExecutable: '/Applications/Godot.app/Contents/MacOS/Godot'
