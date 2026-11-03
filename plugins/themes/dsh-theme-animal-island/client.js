@@ -128,21 +128,14 @@ window.__ModuleLoader__.load({
 			800: '#44433f', 850: '#3b3a37', 900: '#292928', 1000: '#20201f',
 		};
 
-		/** Island mint, standing in for the shipped deepseek-blue ramp. */
-		const MINT = {
-			50: '#e9fbf8',
-			100: '#d0f6f0',
-			200: '#a3ece2',
-			300: '#6ce0d2',
-			400: '#3dd4c6',
-			450: '#19c8b9',
-			500: '#12b3a6',
-			600: '#0f9d90',
-			'700-delete': '#0b7f75',
-			800: '#08655d',
-			900: '#054a44',
-			950: '#03332f',
-		};
+		/**
+		 * Stops of the shipped deepseek ramp. Both schemes now derive them from
+		 * the selected accent, so light bubbles/chips/selection stop being mint.
+		 */
+		const BRAND_STOPS = [
+			'50', '100', '200', '300', '400', '450', '500',
+			'600', '700-delete', '800', '900', '950',
+		];
 
 		const GREEN = {
 			100: '#edf6dd',
@@ -191,13 +184,12 @@ window.__ModuleLoader__.load({
 				b3: '#794f2733',
 				b4: '#794f2740',
 				hover: '#794f2714',
-				active: '#794f271f',
 				menu: '#fbf8ee94',
 				menuHeader: '#fbf8eef0',
 				menuIcon: '#5c513f',
-				toolbar: '#5a4a3373',
-				toolbarInvisible: '#2a21185c',
-				toolbarHover: '#5a4a3399',
+				toolbar: '#794f2714',
+				toolbarInvisible: '#794f270a',
+				toolbarHover: '#794f271f',
 				switchThumb: '#ffffff',
 				toastBg: '#fbf7e7',
 				tooltipBg: '#5c4a33',
@@ -214,7 +206,8 @@ window.__ModuleLoader__.load({
 				bg1: '#323230',
 				bg2: '#3b3a37',
 				bg3: '#44433f',
-				overlay: '#3b3a37',
+				// Popovers sit above layer 3; sharing bg2 made them look sunken.
+				overlay: '#4d4c47',
 				module: '#323230',
 				sidebar: '#20201f',
 				label: '#e9e8e4',
@@ -227,22 +220,53 @@ window.__ModuleLoader__.load({
 				b3: '#f5f4ef36',
 				b4: '#f5f4ef4a',
 				hover: '#f5f4ef0f',
-				menu: '#3b3a37',
-				menuHeader: '#3b3a37',
+				menu: '#4d4c47',
+				menuHeader: '#4d4c47',
 				menuIcon: '#d0cfc8',
-				toolbar: '#bdbdb5',
-				toolbarInvisible: '#b8b8af',
-				toolbarHover: '#e9e8e4',
+				toolbar: '#f5f4ef14',
+				toolbarInvisible: '#f5f4ef0a',
+				toolbarHover: '#f5f4ef24',
 				switchThumb: '#d3d2cc',
-				toastBg: '#3b3a37',
-				tooltipBg: '#44433f',
-				tooltipKey: '#51504b',
+				toastBg: '#4d4c47',
+				tooltipBg: '#4d4c47',
+				tooltipKey: '#5d5c56',
 				scroll: '#64645c',
 				scrollHover: '#909087',
 				success: '#b0cfa0',
 				warn: '#e4c77f',
-				error: '#e5a09a',
+				error: '#ecb0aa',
 				idle: '#a7a79e',
+			},
+		};
+
+		/**
+		 * Syntax colours for the host's Shiki CSS variables. The palette keeps the
+		 * island hues, but uses text-safe shades instead of Shiki's default
+		 * blue/green/pink ramp. All values clear 4.5:1 on the matching code-block
+		 * surface (#fdfcf6 day, #323230 night).
+		 */
+		const SHIKI = {
+			light: {
+				constant: '#3f55b5',
+				string: '#3f753f',
+				comment: '#7c6d58',
+				keyword: '#b03e55',
+				parameter: '#a85432',
+				function: '#7d45b5',
+				stringExpression: '#356b35',
+				punctuation: '#665946',
+				link: '#0b7f75',
+			},
+			dark: {
+				constant: '#adbdf0',
+				string: '#b0cfa0',
+				comment: '#a7a79e',
+				keyword: '#e5a09a',
+				parameter: '#e2ad91',
+				function: '#c5b0e4',
+				stringExpression: '#c5dfb8',
+				punctuation: '#bdbdb5',
+				link: '#8bd5ba',
 			},
 		};
 
@@ -290,7 +314,7 @@ window.__ModuleLoader__.load({
 				ink: '#ffffff',
 				under: '#c06a4c',
 				light: { brand: '#bf6440', hover: '#cf7550' },
-				dark: { brand: '#e2ad91', hover: '#edc3ac' },
+				dark: { brand: '#e6b39b', hover: '#edc3ac' },
 			},
 			{
 				id: 'grape',
@@ -298,7 +322,7 @@ window.__ModuleLoader__.load({
 				ink: '#ffffff',
 				under: '#9257c9',
 				light: { brand: '#8b53c4', hover: '#9a62d3' },
-				dark: { brand: '#c5b0e4', hover: '#d6c4ef' },
+				dark: { brand: '#cbb8e8', hover: '#d6c4ef' },
 			},
 			{
 				id: 'leaf',
@@ -314,7 +338,7 @@ window.__ModuleLoader__.load({
 				ink: '#ffffff',
 				under: '#d24a5a',
 				light: { brand: '#c4473f', hover: '#d2544b' },
-				dark: { brand: '#e5a09a', hover: '#efb8b2' },
+				dark: { brand: '#eeb3ae', hover: '#efb8b2' },
 			},
 		];
 
@@ -324,11 +348,33 @@ window.__ModuleLoader__.load({
 			return ACCENTS[0];
 		}
 
+		/** Light primitive consumers follow the chosen accent too. */
+		function dayBrandRamp(accent) {
+			const brand = accent.light.brand;
+			const tile = accent.tile;
+			const base = ISLAND.light.bgBase;
+			const tints = { 50: 10, 100: 20, 200: 38, 300: 58, 400: 78, 450: 100 };
+			const shades = { 600: 82, '700-delete': 68, 800: 55, 900: 35, 950: 22 };
+			const out = {};
+			for (const stop of BRAND_STOPS) {
+				if (stop === '500') {
+					out[stop] = brand;
+				} else if (stop in tints) {
+					out[stop] = tints[stop] === 100
+						? tile
+						: `color-mix(in srgb, ${tile} ${tints[stop]}%, ${base})`;
+				} else {
+					out[stop] = `color-mix(in srgb, ${brand} ${shades[stop]}%, #000000)`;
+				}
+			}
+			return out;
+		}
+
 		/** Dark primitive consumers must follow the chosen accent too. */
 		function nightBrandRamp(accent) {
 			const weights = { 50: 12, 100: 24, 200: 42, 300: 65, 400: 85, 450: 95, 500: 100 };
 			const out = {};
-			for (const stop of Object.keys(MINT)) {
+			for (const stop of BRAND_STOPS) {
 				if (stop in weights) {
 					out[stop] = `color-mix(in srgb, ${accent.dark.brand} ${weights[stop]}%, ${ISLAND.dark.labelInk})`;
 				} else {
@@ -356,7 +402,7 @@ window.__ModuleLoader__.load({
 				// ── Warm primitives ─────────────────────────────────────────────
 				...ramp('--dsw-static-neutral-bluish', BLUISH, NIGHT_BLUISH),
 				...ramp('--dsw-static-neutral', NEUTRAL, NIGHT_NEUTRAL),
-				...ramp('--dsw-static-deepseek', MINT, nightBrandRamp(accent)),
+				...ramp('--dsw-static-deepseek', dayBrandRamp(accent), nightBrandRamp(accent)),
 				...ramp('--dsw-static-green', GREEN),
 				...ramp('--dsw-static-red', RED),
 				...ramp('--dsw-static-amber', AMBER),
@@ -383,6 +429,10 @@ window.__ModuleLoader__.load({
 				'--dsw-alias-label-primary-dimmed': split(L.labelDim, D.labelDim),
 				'--dsw-alias-label-secondary': split(L.label2, D.label2),
 
+				// ── Plugin-owned settings row ink ───────────────────────────────
+				'--aia-current': split('#6f614d', '#d0cfc8'),
+				'--aia-hint': split('#7c6d58', '#bdbdb5'),
+
 				// ── Accent (buttons, links, focus washes) ───────────────────────
 				'--dsw-alias-brand-primary': split(brandL, brandD),
 				'--dsw-alias-brand-primary-new-colorprimary-new-color': split(brandL, brandD),
@@ -401,8 +451,14 @@ window.__ModuleLoader__.load({
 				// ── Interaction washes ──────────────────────────────────────────
 				'--dsw-alias-interactive-bg-hover': split(L.hover, D.hover),
 				'--dsw-alias-interactive-bg-active': split(
-					L.active,
+					`color-mix(in srgb, ${brandL} 14%, transparent)`,
 					`color-mix(in srgb, ${brandD} 18%, transparent)`,
+				),
+				// The host's selected-session cell is a separate token; tint it too
+				// so switching accent changes the sidebar, not only buttons/links.
+				'--dsw-specific-sidebar-nav-item-active': split(
+					`color-mix(in srgb, ${brandL} 12%, ${L.bgBase})`,
+					`color-mix(in srgb, ${brandD} 16%, ${D.bgBase})`,
 				),
 				'--dsw-alias-interactive-bg-hover-danger': split(
 					'rgba(224, 90, 90, 0.12)',
@@ -414,6 +470,20 @@ window.__ModuleLoader__.load({
 				'--dsw-alias-state-warn-primary': split(L.warn, D.warn),
 				'--dsw-alias-state-error-primary': split(L.error, D.error),
 				'--dsw-alias-state-idle-primary': split(L.idle, D.idle),
+
+				// ── Syntax highlighting (host Shiki CSS variables) ─────────────
+				'--shiki-token-constant': split(SHIKI.light.constant, SHIKI.dark.constant),
+				'--shiki-token-string': split(SHIKI.light.string, SHIKI.dark.string),
+				'--shiki-token-comment': split(SHIKI.light.comment, SHIKI.dark.comment),
+				'--shiki-token-keyword': split(SHIKI.light.keyword, SHIKI.dark.keyword),
+				'--shiki-token-parameter': split(SHIKI.light.parameter, SHIKI.dark.parameter),
+				'--shiki-token-function': split(SHIKI.light.function, SHIKI.dark.function),
+				'--shiki-token-string-expression': split(
+					SHIKI.light.stringExpression,
+					SHIKI.dark.stringExpression,
+				),
+				'--shiki-token-punctuation': split(SHIKI.light.punctuation, SHIKI.dark.punctuation),
+				'--shiki-token-link': split(SHIKI.light.link, SHIKI.dark.link),
 
 				// ── Menus, toolbars, overlays ───────────────────────────────────
 				'--dsw-menu-surface-fill': split(L.menu, D.menu),
@@ -432,7 +502,7 @@ window.__ModuleLoader__.load({
 				'--dsw-alias-scrollbar-hover-l1': split(L.scrollHover, D.scrollHover),
 				'--dsw-alias-scrollbar-hover-l2': split(L.scrollHover, D.scrollHover),
 				'--dsw-alias-bg-document-selection': split(
-					'rgba(25, 200, 185, 0.28)',
+					`color-mix(in srgb, ${brandL} 28%, transparent)`,
 					`color-mix(in srgb, ${brandD} 24%, transparent)`,
 				),
 
@@ -444,6 +514,16 @@ window.__ModuleLoader__.load({
 				'--dsw-linear-think-select': split(
 					`linear-gradient(180deg, ${L.bg2} 20.19%, ${L.bg2}00 100%)`,
 					`linear-gradient(180deg, ${D.bg2} 20.19%, ${D.bg2}00 100%)`,
+				),
+				// The host's running-label sweep still mixes in static blue-300;
+				// keep the island accent instead of leaving a blue shimmer behind.
+				'--dsw-alias-label-deep-diving': split(
+					`color-mix(in srgb, ${brandL} 70%, ${L.labelInk})`,
+					`color-mix(in srgb, ${brandD} 55%, ${D.labelDim})`,
+				),
+				'--dsw-alias-label-deep-diving-shimmer': split(
+					`color-mix(in srgb, ${brandL} 35%, ${L.labelInk})`,
+					`color-mix(in srgb, ${brandD} 65%, ${D.labelInk})`,
 				),
 
 				// ── Island geometry: rounder corners and warm, never cold, shadows
@@ -468,7 +548,7 @@ window.__ModuleLoader__.load({
 				),
 
 				// ── Yellow focus ring: the island never uses a blue focus color ──
-				'--dsw-focus-ring-color': split('#e0a800', '#ffcc00'),
+				'--dsw-focus-ring-color': split('#9a6f00', '#ffcc00'),
 				'--dsw-focus-ring-width': both('2px'),
 			};
 		}
@@ -580,7 +660,7 @@ window.__ModuleLoader__.load({
   line-height: 22px;
 }
 .aia-current {
-  color: var(--dsw-alias-label-primary-dimmed);
+  color: var(--aia-current, var(--dsw-alias-label-primary-dimmed));
   font-size: 12px;
   font-weight: 500;
   line-height: 20px;
@@ -588,7 +668,7 @@ window.__ModuleLoader__.load({
 .aia-hint {
   margin: 0;
   max-width: 65ch;
-  color: var(--dsw-alias-label-secondary);
+  color: var(--aia-hint, var(--dsw-alias-label-secondary));
   font-size: 12px;
   font-weight: 400;
   line-height: 20px;

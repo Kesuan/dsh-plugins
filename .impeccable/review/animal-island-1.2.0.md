@@ -1,5 +1,7 @@
 # Animal Island 1.2.0 — screenshot-driven revision
 
+**Historical:** 1.2.0 has been superseded by [1.3.0](animal-island-1.3.0.md). This record remains the 1.2.0 evidence; its visual-pending status is unchanged.
+
 ## User evidence and direction
 
 The actual 2560×1392 screenshot of 1.1.0 showed green throughout sidebar, canvas, message bubble and composer. The user rejected the green cast, weak hierarchy and lack of a light, playful Animal Island character. The earlier source-only ship is not a visual pass.

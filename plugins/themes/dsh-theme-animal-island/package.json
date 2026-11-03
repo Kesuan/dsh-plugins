@@ -1,6 +1,6 @@
 {
   "name": "@local/dsh-theme-animal-island",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "scripts": { "test": "node --test theme.test.js" },
   "private": true,
   "description": "Animal Island styling for the DSH desktop client: parchment days, warm-charcoal nights with restrained mint accents, Nunito type, and eight island accents in Settings.",
