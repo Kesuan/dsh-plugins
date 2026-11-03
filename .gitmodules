@@ -1,0 +1,3 @@
+[submodule "third_party/dsh-rewind-plugin"]
+	path = third_party/dsh-rewind-plugin
+	url = https://github.com/SiriLee/dsh-rewind.git
