@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Source Control",
+    "description": "Review Git changes, stage and commit, browse the commit graph and per-file diffs, and fetch/pull/push from the Session's right Sidebar."
+  }
+}

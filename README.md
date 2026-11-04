@@ -13,7 +13,8 @@
 │   │   └── dsh-theme-claude-code/
 │   └── tools/                       # 功能类：给界面/工作流增加能力
 │       ├── dsh-godot-debug/         # 右侧侧边栏预览当前会话的 Godot 项目
-│       └── dsh-session-delete/
+│       ├── dsh-session-delete/
+│       └── dsh-source-control/      # 会话右侧栏的 VSCode 风格源代码管理
 ├── third_party/                     # 第三方插件引用（git submodule，不计入自研插件）
 │   └── dsh-rewind-plugin/
 ├── LICENSE
@@ -30,6 +31,7 @@
 | [dsh-theme-claude-code](plugins/themes/dsh-theme-claude-code/README.md) | themes | 1.0.0 | Claude Code 配色：暖纸/暖炭底色，明暗两套色值跟随系统外观 |
 | [dsh-godot-debug](plugins/tools/dsh-godot-debug/README.md) | tools | 0.3.0 | 在当前会话的 DSH 右侧栏内嵌预览该会话的 Godot Web 调试版，并显示浏览器控制台日志 |
 | [dsh-session-delete](plugins/tools/dsh-session-delete/README.md) | tools | 0.1.0 | 在侧边栏会话菜单中加入「删除会话…」，二次确认后从磁盘移除会话及其检查点 |
+| [dsh-source-control](plugins/tools/dsh-source-control/README.md) | tools | 0.1.0 | 在会话右侧栏查看 Git 改动、暂存/提交、提交图谱与逐文件 diff，并支持保守的抓取/拉取/推送 |
 
 ## 第三方插件引用
 
@@ -44,7 +46,7 @@
 推荐以 `link:` 方式链接进目标 profile；桌面端通常是 `~/.dsh/profiles/desktop`，
 但应以当前 `DSH_PROFILE` / `DSH_PROFILE_DIR` 或用户指定值为准。
 链接指向本仓库源码；安装后刷新现有 GUI 加载客户端模块，不保证源码修改无需构建就能热更新。
-四个自研插件都按此方式安装；第三方 `dsh-rewind-plugin` 同样以 `link:` 指向
+五个自研插件都按此方式安装；第三方 `dsh-rewind-plugin` 同样以 `link:` 指向
 `third_party/dsh-rewind-plugin`，首次构建和更新方式见 [third_party/README.md](third_party/README.md)。
 
 ### 安装全部插件
@@ -52,7 +54,7 @@
 在仓库根运行（`dsh` 已在 PATH 时）：
 
 ```bash
-dsh plugin --profile desktop add link:"$PWD/plugins/themes/dsh-theme-animal-island" link:"$PWD/plugins/themes/dsh-theme-claude-code" link:"$PWD/plugins/tools/dsh-godot-debug" link:"$PWD/plugins/tools/dsh-session-delete"
+dsh plugin --profile desktop add link:"$PWD/plugins/themes/dsh-theme-animal-island" link:"$PWD/plugins/themes/dsh-theme-claude-code" link:"$PWD/plugins/tools/dsh-godot-debug" link:"$PWD/plugins/tools/dsh-session-delete" link:"$PWD/plugins/tools/dsh-source-control"
 ```
 
 Windows PowerShell 中，若 `dsh` 不在 PATH，可使用应用自带 CLI。
@@ -65,7 +67,8 @@ $repo = (Get-Location).Path
   "link:$repo/plugins/themes/dsh-theme-animal-island" `
   "link:$repo/plugins/themes/dsh-theme-claude-code" `
   "link:$repo/plugins/tools/dsh-godot-debug" `
-  "link:$repo/plugins/tools/dsh-session-delete"
+  "link:$repo/plugins/tools/dsh-session-delete" `
+  "link:$repo/plugins/tools/dsh-source-control"
 if ($LASTEXITCODE -ne 0) { throw '插件安装失败' }
 ```
 
@@ -83,8 +86,13 @@ macOS 未加入 PATH 时，使用实际应用目录内的
   Animal Island 只在 Electron 桌面端应用主题，普通浏览器不应用该主题。
 - 会话删除插件的隔离测试：在 `plugins/tools/dsh-session-delete` 下运行 `node --test`。
   不要通过删除真实会话验证安装；删除操作不可撤销。
-- 安装后刷新当前 GUI，检查插件列表及会话菜单。后端可用 GET `/local/session-delete`
-  返回预期的 HTTP 405 验证路由已加载，该请求不会删除会话。
+- 源代码管理插件的隔离测试：在 `plugins/tools/dsh-source-control` 下运行 `node --test`。
+  它使用临时 Git 仓库，不操作真实工作区；安装后可用 GET
+  `/local/source-control/status?sessionId=does-not-exist` 返回 HTTP 400 `session/unknown`
+  验证路由已加载，该请求不会修改仓库。
+- 安装后刷新当前 GUI，检查插件列表、会话菜单，以及源代码管理在会话标题旁、右侧栏
+  `+` 向导和左侧栏底部的入口。后端可用 GET `/local/session-delete` 返回预期的
+  HTTP 405 验证会话删除路由已加载，该请求不会删除会话。
 
 ### 项目级 Skill
 
@@ -106,6 +114,7 @@ Windows 打包版 CLI / ASAR 注意事项、备份与故障处理、分层验证
   ```bash
   cd plugins/tools/dsh-godot-debug && node --test
   cd plugins/tools/dsh-session-delete && node --test
+  cd plugins/tools/dsh-source-control && node --test
   ```
 
 ## 许可

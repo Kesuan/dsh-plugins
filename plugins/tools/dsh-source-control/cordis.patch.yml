@@ -1,0 +1,9 @@
+# dsh-source-control bundle patch.
+#
+# Adds one global Host row providing `/local/source-control/*` and the Session
+# right-Sidebar page. It replaces nothing: a profile without the right Sidebar
+# still loads, and the entry points simply have nowhere to open.
+
+- insert:
+    - id: source-control
+      name: '@local/dsh-source-control'

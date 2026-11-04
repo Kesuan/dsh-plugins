@@ -25,13 +25,15 @@ description: "安装、更新或核验本仓库的全部或指定 DeepSeek Harne
 4. 从 `$env:DSH_PROFILE`、`$env:DSH_PROFILE_DIR`、`$env:DSH_HOME` 和 `$env:DSH_WEB_URL` 确认当前宿主；用户明确指定的目标优先。环境变量不全时先定位真实 profile，不猜测用户目录。
 5. 阅读目标 profile 的 `package.json`、`cordis.patch.yml`、`pnpm-workspace.yaml`（若存在）及已有锁文件，保留其他依赖、内建 bundle、LLM/provider 设置和用户禁用状态。
 
-本次实测插件清单（2026-11-03；以后必须重新发现）：
+本次实测插件清单（2026-11-04；以后必须重新发现）：
 
 | 包名 | 仓库相对目录 | Cordis row ID |
 | --- | --- | --- |
 | `@local/dsh-theme-animal-island` | `plugins/themes/dsh-theme-animal-island` | `theme-animal-island` |
 | `@local/dsh-theme-claude-code` | `plugins/themes/dsh-theme-claude-code` | `theme-claude-code` |
+| `@local/dsh-godot-debug` | `plugins/tools/dsh-godot-debug` | `godot-debug` |
 | `@local/dsh-session-delete` | `plugins/tools/dsh-session-delete` | `session-delete` |
+| `@local/dsh-source-control` | `plugins/tools/dsh-source-control` | `source-control` |
 
 ## 2. 找到真正的 DSH CLI
 
@@ -68,7 +70,9 @@ if (-not $profile) { throw '请先确认目标 profile' }
 $pluginDirs = @(
     'plugins/themes/dsh-theme-animal-island'
     'plugins/themes/dsh-theme-claude-code'
+    'plugins/tools/dsh-godot-debug'
     'plugins/tools/dsh-session-delete'
+    'plugins/tools/dsh-source-control'
 )
 $specs = $pluginDirs | ForEach-Object {
     'link:' + (Join-Path $repo $_).Replace('\', '/')
@@ -100,14 +104,16 @@ if ($LASTEXITCODE -ne 0) { throw "DSH 插件安装失败：$LASTEXITCODE" }
 ### B. 代码与隔离测试
 
 - 用 `node --check <文件>` 检查每个插件的 JS 入口/实现，包括客户端文件（语法通过不等于客户端成功执行）。
-- 对声明或文档提供的测试逐个执行；本项目会话删除插件：
+- 对声明或文档提供的测试逐个执行；本项目的功能插件都使用 Node 内置测试运行器：
 
 ```powershell
 node --test
 # working directory: plugins/tools/dsh-session-delete
+# working directory: plugins/tools/dsh-godot-debug
+# working directory: plugins/tools/dsh-source-control
 ```
 
-2026-11-03 实测 6 项全部通过，覆盖冷会话删除、拒绝活动会话、记录不存在、非法 ID、路径逃逸保护和已归档情况。测试使用临时数据，不能替换为真实会话删除。
+2026-11-03 会话删除插件实测 6 项全部通过，覆盖冷会话删除、拒绝活动会话、记录不存在、非法 ID、路径逃逸保护和已归档情况；2026-11-04 源代码管理插件 8 项通过，使用临时 Git 仓库验证状态、暂存、提交、历史、diff、init 和重命名，不以真实仓库做破坏性测试。
 
 ### C. 当前宿主与客户端
 
@@ -123,7 +129,7 @@ $r.Content
 
 - 404：检查 profile 是否正确、bundle 是否已选中、row 是否禁用及宿主是否应用配置；必要时通过受支持的插件管理器重载，不能直接杀当前宿主。
 - 根页面返回 401 且提示 `dsh web authentication required`：这是独立 HTTP 客户端缺少浏览器认证，不等于插件安装失败。不要伪造 cookie 或修改凭据绕过认证。
-- 客户端需要在**现有 GUI URL**刷新页面后验证：Settings → Plugins 能看到 3 个包；会话菜单出现“删除会话…”；Animal Island 在桌面端的 General 设置中显示强调色选择器。
+- 客户端需要在**现有 GUI URL**刷新页面后验证：Settings → Plugins 能看到对应包；会话菜单出现“删除会话…”；源代码管理出现在会话标题旁的按钮、右侧栏 `+` 向导和左侧栏底部；Animal Island 在桌面端的 General 设置中显示强调色选择器。
 - 只有实际检查过渲染结果才能声称“界面验证通过”。没有浏览器工具时，分别报告已完成的安装/宿主验证和待用户刷新的界面检查。
 - 本地链接只保证源码路径关联。客户端代码修改是否热更新取决于实际构建和 watcher；没有核实同安装/checkout 的 `pnpm run dev:web`，不要承诺“修改即时生效”。不要为此启动另一个服务。
 
