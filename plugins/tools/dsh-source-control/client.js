@@ -1,8 +1,8 @@
 /**
  * Client half of the Source Control bundle.
  *
- * One right-Sidebar page, one header shortcut, and one left-Sidebar footer
- * shortcut share the same page. The page reads `/local/source-control/*` from
+ * The right-Sidebar guide and header shortcut share the same page.
+ * The page reads `/local/source-control/*` from
  * the Host half; it never imports another Harness Client package, so React is
  * the only runtime module it needs.
  */
@@ -32,7 +32,6 @@ window.__ModuleLoader__.load({
 			title: 'Source Control',
 			guide: 'Review changes, stage and commit, browse history and diffs.',
 			headerAction: 'Source Control',
-			footerAction: 'Open Source Control',
 			noRepo: 'Not a Git repository',
 			noRepoHint: 'This Session’s working directory is not inside a Git repository.',
 			initRepo: 'Initialize repository',
@@ -123,7 +122,6 @@ window.__ModuleLoader__.load({
 			title: '源代码管理',
 			guide: '查看改动、暂存并提交，浏览提交图谱与逐文件差异。',
 			headerAction: '源代码管理',
-			footerAction: '打开源代码管理',
 			noRepo: '不是 Git 仓库',
 			noRepoHint: '当前会话的工作目录不在 Git 仓库中。',
 			initRepo: '初始化仓库',
@@ -1748,22 +1746,6 @@ window.__ModuleLoader__.load({
 			);
 		}
 
-		/** The persistent source-control shortcut in the left Sidebar footer. */
-		function FooterAction({ wide, t, openSourceControl }) {
-			return h(
-				'button',
-				{
-					type: 'button',
-					className: 'sc-footer-action',
-					title: t('footerAction'),
-					'aria-label': t('footerAction'),
-					onClick: openSourceControl,
-				},
-				h(SourceControlIcon, { size: wide ? 16 : 18 }),
-				wide ? h('span', null, t('title')) : null,
-			);
-		}
-
 		const STYLES = `
 .sc-root, .sc-subpage {
   box-sizing: border-box;
@@ -2259,24 +2241,6 @@ window.__ModuleLoader__.load({
 .sc-header-action:hover { background: var(--dsw-alias-interactive-bg-hover); }
 .sc-header-action:focus-visible { outline: none; box-shadow: 0 0 0 var(--dsw-focus-ring-width) var(--dsw-focus-ring-color); }
 .sc-header-action-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sc-footer-action {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 28px;
-  max-width: 100%;
-  padding: 0 7px;
-  border: none;
-  border-radius: 6px;
-  background: transparent;
-  color: var(--dsw-alias-label-secondary);
-  font: inherit;
-  font-size: 11px;
-  cursor: pointer;
-}
-.sc-footer-action:hover { background: var(--dsw-alias-interactive-bg-hover); color: var(--dsw-alias-label-primary); }
-.sc-footer-action span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sc-footer-action:focus-visible { outline: none; box-shadow: 0 0 0 var(--dsw-focus-ring-width) var(--dsw-focus-ring-color); }
 `;
 
 		return {
@@ -2340,22 +2304,6 @@ window.__ModuleLoader__.load({
 							}),
 						},
 						HeaderAction,
-					),
-				);
-
-				ctx.slots.inject('sidebar.footer.action', () =>
-					ctx.slots.register(
-						{
-							name: 'sidebar.footer.action',
-							id: 'source-control',
-							order: 20,
-							locale: NS,
-							label: () => t('title'),
-							inject: () => ({
-								openSourceControl: () => ctx.sidebarRight.openTab(TAB_KIND),
-							}),
-						},
-						FooterAction,
 					),
 				);
 			},

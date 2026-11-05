@@ -91,7 +91,7 @@ macOS 未加入 PATH 时，使用实际应用目录内的
   `/local/source-control/status?sessionId=does-not-exist` 返回 HTTP 400 `session/unknown`
   验证路由已加载，该请求不会修改仓库。
 - 安装后刷新当前 GUI，检查插件列表、会话菜单，以及源代码管理在会话标题旁、右侧栏
-  `+` 向导和左侧栏底部的入口。后端可用 GET `/local/session-delete` 返回预期的
+  `+` 向导中的入口，确认左侧栏底部不再显示源代码管理按钮。后端可用 GET `/local/session-delete` 返回预期的
   HTTP 405 验证会话删除路由已加载，该请求不会删除会话。
 
 ### 项目级 Skill

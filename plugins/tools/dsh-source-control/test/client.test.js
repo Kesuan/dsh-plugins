@@ -26,7 +26,7 @@ const ReactStub = {
 	useCallback() {},
 };
 
-test('client factory registers the right Sidebar page, guide, header, and footer entry points', () => {
+test('client factory registers the right Sidebar page, guide, and header without a left Sidebar footer entry', () => {
 	assert.equal(loaded.id, '@local/dsh-source-control');
 	const plugin = loaded.factory((name) => {
 		if (name === 'react') return ReactStub;
@@ -84,7 +84,6 @@ test('client factory registers the right Sidebar page, guide, header, and footer
 			['register', 'sidebar.right.pane.tab', '@local/dsh-source-control/page', 'function'],
 			['register', 'sidebar.right.tab.guide.entry', '@local/dsh-source-control/page', 'function'],
 			['register', 'conversation.session.header.actions', 'source-control', 'function'],
-			['register', 'sidebar.footer.action', 'source-control', 'function'],
 		],
 	);
 	assert.deepEqual(
@@ -93,7 +92,6 @@ test('client factory registers the right Sidebar page, guide, header, and footer
 			'sidebar.right.pane.tab',
 			'sidebar.right.tab.guide.entry',
 			'conversation.session.header.actions',
-			'sidebar.footer.action',
 		],
 	);
 	assert.deepEqual(effects, ['source-control: styles', 'source-control: dictionaries', 'source-control: right Sidebar tab type']);

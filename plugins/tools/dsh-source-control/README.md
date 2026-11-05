@@ -17,11 +17,12 @@
 
 ## 入口
 
-插件提供三个入口，均打开同一个右侧栏页面：
+插件提供两个入口，均打开同一个右侧栏页面：
 
 1. 会话标题旁的 **源代码管理** 按钮；
-2. 右侧侧边栏 `+` 向导中的 **源代码管理** 卡片；
-3. 左侧侧边栏底部、Settings 旁的 Git 图标按钮。
+2. 右侧侧边栏 `+` 向导中的 **源代码管理** 卡片。
+
+左侧侧边栏底部不再提供源代码管理按钮。
 
 ## 安装
 
@@ -63,7 +64,7 @@ dsh plugin --profile desktop add link:"$PWD/plugins/tools/dsh-source-control"
 | --- | --- |
 | `index.js` | Host 包入口，重新导出 `server.js` 的插件导出。 |
 | `server.js` | Session 工作目录解析、仓库发现、Git 状态/历史/diff/暂存/提交/同步、HTTP 路由与安全校验。 |
-| `client.js` | 右侧栏页、向导卡片、会话标题按钮和左侧栏按钮；React 组件、diff/图谱渲染与主题样式。 |
+| `client.js` | 右侧栏页、向导卡片和会话标题按钮；React 组件、diff/图谱渲染与主题样式。 |
 | `cordis.patch.yml` | 唯一的 bundle 行 `source-control`。 |
 | `locale/*.json` | 插件管理器使用的中英文标题与描述。 |
 | `test/server.test.js` | 真实临时 Git 仓库上的状态、暂存、提交、历史、diff、init 和重命名测试。 |
