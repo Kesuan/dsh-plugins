@@ -1,0 +1,3 @@
+- insert:
+    - id: theme-jellyfish
+      name: '@local/dsh-theme-jellyfish'

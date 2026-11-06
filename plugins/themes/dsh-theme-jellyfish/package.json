@@ -1,0 +1,41 @@
+{
+  "name": "@local/dsh-theme-jellyfish",
+  "version": "0.3.1",
+  "scripts": {
+    "test": "node --test theme.test.js"
+  },
+  "private": true,
+  "description": "Jellyfish theme for the DSH desktop client: dotted kraft paper, a monochrome jellyfish brand mark, a jellyfish HARNESS wordmark, paired Latin/CJK type (Baloo 2 + Noto Sans SC, Space Mono + Noto Serif SC), warm-charcoal night, eight accents and three contour styles.",
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "fonts/*.ttf",
+    "README.md",
+    "LICENSE-Nunito.txt",
+    "LICENSE-Baloo2.txt",
+    "LICENSE-SpaceMono.txt",
+    "LICENSE-NotoCJK.txt"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-theme"
+      ]
+    }
+  }
+}
