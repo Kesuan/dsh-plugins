@@ -17,6 +17,11 @@
     "running": "Motion is on: bubbles rise and fish swim across JELEE Blue.",
     "reduced": "Your system reduces motion, so the background is still. Choose Animate to play.",
     "paused": "The background is still.",
-    "unsaved": "Applied for now, but could not save. Reopening will restore the previous setting."
+    "unsaved": "Applied for now, but could not save. Reopening will restore the previous setting.",
+    "fontHint": "Chinese falls back to locally installed 猫啃珠圆体 (interface) and 975 圆体 (code). Both ship in fonts/.",
+    "fontUi": "MaokenZhuyuanTi",
+    "fontCode": "975 Maru SC",
+    "installed": "installed",
+    "missing": "missing — install from fonts/"
   }
 }

@@ -10,7 +10,8 @@
 ├── plugins/
 │   ├── themes/                      # 主题类：配色、字体、外观
 │   │   ├── dsh-theme-animal-island/
-│   │   └── dsh-theme-claude-code/
+│   │   ├── dsh-theme-claude-code/
+│   │   └── dsh-theme-jellyfish/
 │   └── tools/                       # 功能类：给界面/工作流增加能力
 │       ├── dsh-godot-debug/         # 右侧侧边栏预览当前会话的 Godot 项目
 │       ├── dsh-session-delete/
@@ -29,6 +30,7 @@
 | --- | --- | --- | --- |
 | [dsh-theme-animal-island](plugins/themes/dsh-theme-animal-island/README.md) | themes | 1.5.0 | 动物岛风格主题：浅色奶油纸面、深色暖炭灰、局部薄荷点缀、Nunito 字体，设置页带八种岛屿强调色与三档圆角；1.4.0 让八色覆盖浅色气泡/选区/业务 chip/侧栏选中态，并抬升深色弹层；设计语言参考 guokaigdg 的 [animal-island-ui](https://github.com/guokaigdg/animal-island-ui) |
 | [dsh-theme-claude-code](plugins/themes/dsh-theme-claude-code/README.md) | themes | 1.0.0 | Claude Code 配色：暖纸/暖炭底色，明暗两套色值跟随系统外观 |
+| [dsh-theme-jellyfish](plugins/themes/dsh-theme-jellyfish/README.md) | themes | 0.8.3 | 独立 JELEE 紫／蓝外观，启用期间固定宿主深色组件效果；星空／海景与更丰富的动态泡沫游鱼，背景动态可选，不透明面板、同色Windows标题栏、JELEE HARNESS品牌。 |
 | [dsh-godot-debug](plugins/tools/dsh-godot-debug/README.md) | tools | 0.3.0 | 在当前会话的 DSH 右侧栏内嵌预览该会话的 Godot Web 调试版，并显示浏览器控制台日志 |
 | [dsh-session-delete](plugins/tools/dsh-session-delete/README.md) | tools | 0.1.0 | 在侧边栏会话菜单中加入「删除会话…」，二次确认后从磁盘移除会话及其检查点 |
 | [dsh-source-control](plugins/tools/dsh-source-control/README.md) | tools | 0.1.0 | 在会话右侧栏查看 Git 改动、暂存/提交、提交图谱与逐文件 diff，并支持保守的抓取/拉取/推送 |
@@ -46,7 +48,7 @@
 推荐以 `link:` 方式链接进目标 profile；桌面端通常是 `~/.dsh/profiles/desktop`，
 但应以当前 `DSH_PROFILE` / `DSH_PROFILE_DIR` 或用户指定值为准。
 链接指向本仓库源码；安装后刷新现有 GUI 加载客户端模块，不保证源码修改无需构建就能热更新。
-五个自研插件都按此方式安装；第三方 `dsh-rewind-plugin` 同样以 `link:` 指向
+六个自研插件都按此方式安装；第三方 `dsh-rewind-plugin` 同样以 `link:` 指向
 `third_party/dsh-rewind-plugin`，首次构建和更新方式见 [third_party/README.md](third_party/README.md)。
 
 ### 安装全部插件
@@ -54,7 +56,7 @@
 在仓库根运行（`dsh` 已在 PATH 时）：
 
 ```bash
-dsh plugin --profile desktop add link:"$PWD/plugins/themes/dsh-theme-animal-island" link:"$PWD/plugins/themes/dsh-theme-claude-code" link:"$PWD/plugins/tools/dsh-godot-debug" link:"$PWD/plugins/tools/dsh-session-delete" link:"$PWD/plugins/tools/dsh-source-control"
+dsh plugin --profile desktop add link:"$PWD/plugins/themes/dsh-theme-animal-island" link:"$PWD/plugins/themes/dsh-theme-claude-code" link:"$PWD/plugins/themes/dsh-theme-jellyfish" link:"$PWD/plugins/tools/dsh-godot-debug" link:"$PWD/plugins/tools/dsh-session-delete" link:"$PWD/plugins/tools/dsh-source-control"
 ```
 
 Windows PowerShell 中，若 `dsh` 不在 PATH，可使用应用自带 CLI。
@@ -66,6 +68,7 @@ $repo = (Get-Location).Path
 & $dsh plugin --profile desktop add `
   "link:$repo/plugins/themes/dsh-theme-animal-island" `
   "link:$repo/plugins/themes/dsh-theme-claude-code" `
+  "link:$repo/plugins/themes/dsh-theme-jellyfish" `
   "link:$repo/plugins/tools/dsh-godot-debug" `
   "link:$repo/plugins/tools/dsh-session-delete" `
   "link:$repo/plugins/tools/dsh-source-control"
@@ -82,7 +85,7 @@ macOS 未加入 PATH 时，使用实际应用目录内的
 - 当前版本 DSH CLI 会把新增 bundle 依赖自动加入 `package.json` 的 `dsh.profile.bundles`；
   直接执行系统 `pnpm add` 不保证注册。安装后仍应核验依赖、bundle 清单和链接的真实路径。
 - 已安装但禁用的 bundle 不一定会因重复 `add` 而启用；按用户意图在插件设置中处理。
-- 两个主题都可安装，但会覆盖同一组外观 token，建议在插件设置中一次只启用一个。
+- 三个主题都可安装，但会覆盖同一组外观 token，建议在插件设置中一次只启用一个。
   Animal Island 只在 Electron 桌面端应用主题，普通浏览器不应用该主题。
 - 会话删除插件的隔离测试：在 `plugins/tools/dsh-session-delete` 下运行 `node --test`。
   不要通过删除真实会话验证安装；删除操作不可撤销。

@@ -30,22 +30,27 @@ window.__ModuleLoader__.load({
 		/** Official JELEE logo, requested by the user. See THIRD-PARTY-NOTICES.md. */
 		const JELEE_LOGO = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTYuMzYiIGhlaWdodD0iODQuNzIiIHZpZXdCb3g9IjAgMCA1MTYuMzYgODQuNzIiPjxwYXRoIGQ9Ik0zMC45NiwyLjA0QzUxLjcyLDIuMDQsNzIuMzYtOSw3Mi4zNi0yOS40Vi02NC44YzAtOC44OCwxLjkyLTEyLDEyLjk2LTE0LjUybDUuMTYtMS4ydi0yLjE2SDI3Ljg0djIuMTZsNi4zNiwxLjJjMTEuMTYsMi4wNCwxMi45Niw1LjY0LDEyLjk2LDE0LjUydjQyLjM2QzQ3LjE2LTguNCw0MS41Mi0uNzIsMzAtLjcyYy04LjQsMC0xNS42LTQuMi0xNS42LTcuOTIsMC0uNi40OC0xLjIsMS42OC0xLjMyLDcuOTItLjQ4LDEzLjA4LTUuODgsMTMuMDgtMTIuMTIsMC02LTQuMzItMTEuNzYtMTIuNi0xMS43NkM5LjM2LTMzLjg0LDMtMjguNDQsMy0yMC42NCwzLTYuNzIsMTYuMzIsMi4wNCwzMC45NiwyLjA0Wk00NC40LTc4LjZhOS45MjcsOS45MjcsMCwwLDAtMS45Mi0xLjA4di0uMTJoMy45NlptMy44NCwzLjcyQTcuMzIxLDcuMzIxLDAsMCwwLDQ2LjgtNzYuOGw1LjI4LTNoNC42OFptMS42OCw1LjE2YTE0LjE1NiwxNC4xNTYsMCwwLDAtLjQ4LTIuNGwxMy4yLTcuNjhoNC44Wm0uMzYsNS44OFYtNjYuNmwyMi44LTEzLjJoNC44bC0xLjMyLjcyYy0uODQuNDgtMS41Ni44NC0yLjI4LDEuMzJabTAsNi4xMnYtMi43NmwxOS44LTExLjRhMTguOTE5LDE4LjkxOSwwLDAsMC0uNiwzWm0wLDYuMTJ2LTIuNzZMNjkuMjQtNjUuNHYyLjg4Wm0wLDZ2LTIuNzZMNjkuMjQtNTkuMjh2Mi42NFptMCw2LjEydi0yLjc2TDY5LjI0LTUzLjI4djIuODhabTAsNi4xMnYtMi43Nkw2OS4yNC00Ny4xNnYyLjc2Wm0wLDZ2LTIuNzZMNjkuMjQtNDEuMDR2Mi42NFptMCw1Ljg4Vi0yNEw2OS4yNC0zNC45MnYyLjY0Wk02LTIyLjQ0YTkuNDcsOS40NywwLDAsMSwxLjQ0LTMuNmw4LjUyLTQuOTJoLjZhOS45LDkuOSwwLDAsMSwzLjM2LjQ4Wm0uMzYsNkExMCwxMCwwLDAsMSw2LTE5LjA4bDE3LjA0LTkuOTZhOS4wMjIsOS4wMjIsMCwwLDEsMS44LDEuOTJabTQzLjIsMS42OGEyMi40LDIyLjQsMCwwLDAsLjQ4LTNsMTkuMi0xMS4xNkEyMy4zLDIzLjMsMCwwLDEsNjktMjYuMDRaTTguMTYtMTEuNTJhMTcsMTcsMCwwLDEtLjk2LTIuMTZsMTguODQtMTAuOGExNC43NzIsMTQuNzcyLDAsMCwxLC4yNCwyLjRaTTQ2LjkyLTcuMmEyOC40MiwyOC40MiwwLDAsMCwxLjY4LTMuODRsMTkuNjgtMTEuNC0xLjQ0LDMuNzJaTTE1LjYtMTIuNDhsOS43Mi01LjY0YTEwLjI0OCwxMC4yNDgsMCwwLDEtOS4zNiw1LjY0Wk00My42OC0xLjhsLS4xMi0uMTJMNjIuNjQtMTIuOTZsLjEyLjEyQzU4LjMyLTcuOTIsNTEuNzItNC4wOCw0My42OC0xLjhaTTEyLjEyLTYuNzJhMjEuNTYzLDIxLjU2MywwLDAsMS0yLjI4LTIuNGwyLjQtMS4zMmEzLDMsMCwwLDAtLjM2LDEuNTYsMTIuMTI2LDEyLjEyNiwwLDAsMCwuMzYsMi4wNFpNOTguMDQsMGg5OS43MlYtMzAuNzJIMTk1LjZsLTMsNy42OEMxODcuOTItMTEuNCwxNzguOC0zLjEyLDE2NC41Mi0zLjEySDE0MS4zNlYtNDEuODhoNi4xMmMxMC4zMiwwLDE2LjIsMy4xMiwxOS4wOCwxMS43NmwyLjUyLDcuNjhIMTcxVi02NC4yaC0xLjkybC0yLjUyLDcuOGMtMi43Niw4LjQtOC43NiwxMS42NC0xOS4wOCwxMS42NGgtNi4xMnYtMzQuOGgyNS42OGMxMi44NCwwLDIyLjY4LDguNCwyNi4yOCwyMC40bDEuNDQsNC44aDIuMTZWLTgyLjY4SDk4LjA0djIuMTZsNS4xNiwxLjJjMTEuMDQsMi41MiwxMi45Niw1LjY0LDEyLjk2LDE0LjUydjQ2LjkyYzAsOC44OC0xLjkyLDEyLTEyLjk2LDE0LjUybC01LjE2LDEuMlptMTQuNTItNzguNi0yLjY0LTEuMDh2LS4xMmg0LjhaTTExNy03NC44OGExMy42NDQsMTMuNjQ0LDAsMCwwLTEuOC0xLjkybDUuMjgtM2g1LjA0Wm0xLjkyLDQuOTItLjcyLTIuNCwxMi44NC03LjQ0aDQuOFpNMTgzLTc3LjY0bC0yLjUyLTEuMzIsMS41Ni0uODRoNC42OFptNC44LDMuMzZhMjMuMDc0LDIzLjA3NCwwLDAsMC0yLjA0LTEuNTZsNi44NC0zLjk2aDEuNDR2MS45MlptLTY4LjUyLDEwLjJ2LTIuNzZsMTguOTYtMTAuOTJWLTc1Wm03Mi02LjEyLTEuNDQtMS45Miw0LjItMi40djIuNzZabS03MiwxMi4yNHYtMi44OGwxOC45Ni0xMC45MlYtNjlabTc0LjY0LTcuMDhjLS4zNi0uOTYtLjg0LTEuOC0xLjItMi43NmwxLjMyLS43MnYzLjQ4Wk0xMTkuMjgtNTEuOTZ2LTIuNzZsMTguOTYtMTAuOTJWLTYzWm0wLDYuMTJWLTQ4LjZsMTguOTYtMTAuOTJ2Mi43NlptNDYuNTYtMy42QTE4LjE0NywxOC4xNDcsMCwwLDAsMTY4LTUzLjc2aC4xMnYzWm0tNDYuNTYsOS42di0yLjY0bDE4Ljk2LTExLjA0djIuNjRabTAsNi4xMnYtMi43NmwxOC45Ni0xMS4wNHYyLjg4Wm00Mi40OC03LjMyYTcuNzI4LDcuNzI4LDAsMCwwLTIuNC0xLjMybDguNzYtNS4wNHYyLjY0Wk0xMTkuMjgtMjcuNnYtMi43NkwxMzguMjQtNDEuNHYyLjc2Wm00Ni40NC05LjQ4YTkuMTUyLDkuMTUyLDAsMCwwLTEuNTYtMi4wNGwzLjk2LTIuMjh2Mi44OFpNMTE5LjI4LTIxLjZ2LTIuNzZsMTguOTYtMTAuOTJ2Mi43NlpNMTY4LTMyLjRsLS45Ni0yLjI4LDEuMDgtLjZ2Mi44OFpNMTE5LjE2LTE1LjQ4bC4xMi0yLjR2LS4zNmwxOC45Ni0xMC45MnYyLjY0Wm0tMS45Miw3LjJhMTUuMTI5LDE1LjEyOSwwLDAsMCwxLjQ0LTMuNDhsMTkuNTYtMTEuNHYyLjc2Wm03NS4yNC03LjkyYy44NC0xLjY4LDEuNTYtMy4zNiwyLjI4LTUuMTZoLjEydjMuNzJaTTExMy41Mi0yLjg4bDI0LjcyLTE0LjI4djIuNzZMMTE4LjMyLTIuODhabTYzLjI0LDBWLTNhMjUuMjg3LDI1LjI4NywwLDAsMCwxMS44OC03LjY4bDYuMjQtMy42djIuNzZMMTgwLTIuODhabS01Mi41NiwwLDE0LjA0LTguMDR2Mi42NGwtOS4zNiw1LjRabTYxLjQ0LDAsOS4yNC01LjI4Vi01LjRsLTQuNDQsMi41MlptLTUxLDAsMy42LTIuMDR2Mi4wNFpNMjA3LDBoOTQuNjhWLTMzLjEyaC0yLjE2bC0yLjg4LDguODhjLTMuNzIsMTEuODgtMTMuNjgsMjEuMTItMjguMiwyMS4xMkgyNTAuMzJWLTY0LjhjMC04Ljg4LDEuOC0xMi40OCwxMi45Ni0xNC41Mmw2LjM2LTEuMnYtMi4xNkgyMDd2Mi4xNmw1LjE2LDEuMmMxMS4wNCwyLjUyLDEyLjk2LDUuNjQsMTIuOTYsMTQuNTJ2NDYuOTJjMCw4Ljg4LTEuOTIsMTItMTIuOTYsMTQuNTJMMjA3LTIuMTZabTE3LjI4LTc2LjkyQTE0LjY3MywxNC42NzMsMCwwLDAsMjIyLTc4LjM2bDIuNC0xLjQ0aDQuOFptMi44OCw0LjMyYTksOSwwLDAsMC0uOTYtMi4xNmw4Ljc2LTUuMDRoNC42OFptMS4wOCw1LjUyLS4zNi0yLjY0TDI0NS42NC03OS44aDQuNjhabTAsNi4xMnYtMi44OGwyMi4wOC0xMi43MnYuMjRhMTAuMDExLDEwLjAxMSwwLDAsMC0yLjE2LDMuODRabTAsNnYtMi43NmwxOS4wOC0xMS4wNGMwLC45Ni0uMTIsMS44LS4xMiwyLjc2Wm0wLDYuMTJWLTUxLjZMMjQ3LjItNjIuNTJ2Mi43NlptMCw2di0yLjY0TDI0Ny4yLTU2LjUydjIuNzZabTAsNi4xMnYtMi43NkwyNDcuMi01MC40djIuNzZabTAsNnYtMi42NEwyNDcuMi00NC40djIuNzZabTAsNnYtMi43NmwxOC45Ni0xMC44djIuNzZabTAsNnYtMi42NGwxOC45Ni0xMC44djIuNjRabS0uNDgsNi40OGExMC41LDEwLjUsMCwwLDAsLjM2LTIuODhMMjQ3LjItMjYuMTZ2Mi43NlpNMjE5LjYtM3YtLjI0YzMuMjQtMS4wOCw1LjQtMi41Miw2LjcyLTQuOEwyNDcuMi0yMC4xNnYyLjc2TDIyMi40OC0zWm03NS43Mi0xMS43NmMuNzItMS4yLDEuNDQtMi42NCwyLjE2LTMuOTZsMS4zMi0uODR2Mi43NlpNMjI4LjM2LTMsMjQ3LjItMTMuOTJ2Mi42NEwyMzIuOTItM1ptNTMuMDQuMTJWLTNhMjcuNjYsMjcuNjYsMCwwLDAsOC40LTUuMjhsOS01LjE2djIuNzZsLTEzLjQ0LDcuOFpNMjM4LjgtM2w4LjQtNC45MnYyLjg4TDI0My43Mi0zWm01Mi4yLjEyLDcuOC00LjQ0djIuNjRsLTMsMS44Wk0zMTAuNjgsMEg0MTAuNFYtMzAuNzJoLTIuMTZsLTMsNy42OGMtNC42OCwxMS42NC0xMy44LDE5LjkyLTI4LjA4LDE5LjkySDM1NFYtNDEuODhoNi4xMmMxMC4zMiwwLDE2LjIsMy4xMiwxOS4wOCwxMS43NmwyLjUyLDcuNjhoMS45MlYtNjQuMmgtMS45MmwtMi41Miw3LjhjLTIuNzYsOC40LTguNzYsMTEuNjQtMTkuMDgsMTEuNjRIMzU0di0zNC44aDI1LjY4YzEyLjg0LDAsMjIuNjgsOC40LDI2LjI4LDIwLjRsMS40NCw0LjhoMi4xNlYtODIuNjhIMzEwLjY4djIuMTZsNS4xNiwxLjJjMTEuMDQsMi41MiwxMi45Niw1LjY0LDEyLjk2LDE0LjUydjQ2LjkyYzAsOC44OC0xLjkyLDEyLTEyLjk2LDE0LjUybC01LjE2LDEuMlpNMzI1LjItNzguNmwtMi42NC0xLjA4di0uMTJoNC44Wm00LjQ0LDMuNzJhMTMuNjQyLDEzLjY0MiwwLDAsMC0xLjgtMS45Mmw1LjI4LTNoNS4wNFptMS45Miw0LjkyLS43Mi0yLjQsMTIuODQtNy40NGg0LjhabTY0LjA4LTcuNjgtMi41Mi0xLjMyLDEuNTYtLjg0aDQuNjhabTQuOCwzLjM2YTIzLjA3NCwyMy4wNzQsMCwwLDAtMi4wNC0xLjU2bDYuODQtMy45NmgxLjQ0djEuOTJabS02OC41MiwxMC4ydi0yLjc2bDE4Ljk2LTEwLjkyVi03NVptNzItNi4xMi0xLjQ0LTEuOTIsNC4yLTIuNHYyLjc2Wm0tNzIsMTIuMjR2LTIuODhsMTguOTYtMTAuOTJWLTY5Wm03NC42NC03LjA4Yy0uMzYtLjk2LS44NC0xLjgtMS4yLTIuNzZsMS4zMi0uNzJ2My40OFpNMzMxLjkyLTUxLjk2di0yLjc2bDE4Ljk2LTEwLjkyVi02M1ptMCw2LjEyVi00OC42bDE4Ljk2LTEwLjkydjIuNzZabTQ2LjU2LTMuNmExOC4xNDgsMTguMTQ4LDAsMCwwLDIuMTYtNC4zMmguMTJ2M1ptLTQ2LjU2LDkuNnYtMi42NGwxOC45Ni0xMS4wNHYyLjY0Wm0wLDYuMTJ2LTIuNzZsMTguOTYtMTEuMDR2Mi44OFptNDIuNDgtNy4zMmE3LjcyOCw3LjcyOCwwLDAsMC0yLjQtMS4zMmw4Ljc2LTUuMDR2Mi42NFpNMzMxLjkyLTI3LjZ2LTIuNzZMMzUwLjg4LTQxLjR2Mi43NlptNDYuNDQtOS40OGE5LjE1Miw5LjE1MiwwLDAsMC0xLjU2LTIuMDRsMy45Ni0yLjI4djIuODhaTTMzMS45Mi0yMS42di0yLjc2bDE4Ljk2LTEwLjkydjIuNzZabTQ4LjcyLTEwLjgtLjk2LTIuMjgsMS4wOC0uNnYyLjg4Wk0zMzEuOC0xNS40OGwuMTItMi40di0uMzZsMTguOTYtMTAuOTJ2Mi42NFptLTEuOTIsNy4yYTE1LjEyOCwxNS4xMjgsMCwwLDAsMS40NC0zLjQ4bDE5LjU2LTExLjR2Mi43NlptNzUuMjQtNy45MmMuODQtMS42OCwxLjU2LTMuMzYsMi4yOC01LjE2aC4xMnYzLjcyWk0zMjYuMTYtMi44OGwyNC43Mi0xNC4yOHYyLjc2TDMzMC45Ni0yLjg4Wm02My4yNCwwVi0zYTI1LjI4NywyNS4yODcsMCwwLDAsMTEuODgtNy42OGw2LjI0LTMuNnYyLjc2TDM5Mi42NC0yLjg4Wm0tNTIuNTYsMCwxNC4wNC04LjA0djIuNjRsLTkuMzYsNS40Wm02MS40NCwwLDkuMjQtNS4yOFYtNS40bC00LjQ0LDIuNTJabS01MSwwLDMuNi0yLjA0djIuMDRaTTQxOS42NCwwaDk5LjcyVi0zMC43Mkg1MTcuMmwtMyw3LjY4QzUwOS41Mi0xMS40LDUwMC40LTMuMTIsNDg2LjEyLTMuMTJINDYyLjk2Vi00MS44OGg2LjEyYzEwLjMyLDAsMTYuMiwzLjEyLDE5LjA4LDExLjc2bDIuNTIsNy42OGgxLjkyVi02NC4yaC0xLjkybC0yLjUyLDcuOGMtMi43Niw4LjQtOC43NiwxMS42NC0xOS4wOCwxMS42NGgtNi4xMnYtMzQuOGgyNS42OGMxMi44NCwwLDIyLjY4LDguNCwyNi4yOCwyMC40bDEuNDQsNC44aDIuMTZWLTgyLjY4SDQxOS42NHYyLjE2bDUuMTYsMS4yYzExLjA0LDIuNTIsMTIuOTYsNS42NCwxMi45NiwxNC41MnY0Ni45MmMwLDguODgtMS45MiwxMi0xMi45NiwxNC41MmwtNS4xNiwxLjJabTE0LjUyLTc4LjYtMi42NC0xLjA4di0uMTJoNC44Wm00LjQ0LDMuNzJhMTMuNjQ1LDEzLjY0NSwwLDAsMC0xLjgtMS45Mmw1LjI4LTNoNS4wNFptMS45Miw0LjkyLS43Mi0yLjQsMTIuODQtNy40NGg0LjhabTY0LjA4LTcuNjgtMi41Mi0xLjMyLDEuNTYtLjg0aDQuNjhabTQuOCwzLjM2YTIzLjA3NCwyMy4wNzQsMCwwLDAtMi4wNC0xLjU2bDYuODQtMy45NmgxLjQ0djEuOTJabS02OC41MiwxMC4ydi0yLjc2bDE4Ljk2LTEwLjkyVi03NVptNzItNi4xMi0xLjQ0LTEuOTIsNC4yLTIuNHYyLjc2Wm0tNzIsMTIuMjR2LTIuODhsMTguOTYtMTAuOTJWLTY5Wm03NC42NC03LjA4Yy0uMzYtLjk2LS44NC0xLjgtMS4yLTIuNzZsMS4zMi0uNzJ2My40OFpNNDQwLjg4LTUxLjk2di0yLjc2bDE4Ljk2LTEwLjkyVi02M1ptMCw2LjEyVi00OC42bDE4Ljk2LTEwLjkydjIuNzZabTQ2LjU2LTMuNmExOC4xNDgsMTguMTQ4LDAsMCwwLDIuMTYtNC4zMmguMTJ2M1ptLTQ2LjU2LDkuNnYtMi42NGwxOC45Ni0xMS4wNHYyLjY0Wm0wLDYuMTJ2LTIuNzZsMTguOTYtMTEuMDR2Mi44OFptNDIuNDgtNy4zMmE3LjcyOSw3LjcyOSwwLDAsMC0yLjQtMS4zMmw4Ljc2LTUuMDR2Mi42NFpNNDQwLjg4LTI3LjZ2LTIuNzZMNDU5Ljg0LTQxLjR2Mi43NlptNDYuNDQtOS40OGE5LjE1Miw5LjE1MiwwLDAsMC0xLjU2LTIuMDRsMy45Ni0yLjI4djIuODhaTTQ0MC44OC0yMS42di0yLjc2bDE4Ljk2LTEwLjkydjIuNzZaTTQ4OS42LTMyLjRsLS45Ni0yLjI4LDEuMDgtLjZ2Mi44OFpNNDQwLjc2LTE1LjQ4bC4xMi0yLjR2LS4zNmwxOC45Ni0xMC45MnYyLjY0Wm0tMS45Miw3LjJhMTUuMTI4LDE1LjEyOCwwLDAsMCwxLjQ0LTMuNDhsMTkuNTYtMTEuNHYyLjc2Wm03NS4yNC03LjkyYy44NC0xLjY4LDEuNTYtMy4zNiwyLjI4LTUuMTZoLjEydjMuNzJaTTQzNS4xMi0yLjg4bDI0LjcyLTE0LjI4djIuNzZMNDM5LjkyLTIuODhabTYzLjI0LDBWLTNhMjUuMjg3LDI1LjI4NywwLDAsMCwxMS44OC03LjY4bDYuMjQtMy42djIuNzZMNTAxLjYtMi44OFptLTUyLjU2LDAsMTQuMDQtOC4wNHYyLjY0bC05LjM2LDUuNFptNjEuNDQsMCw5LjI0LTUuMjhWLTUuNGwtNC40NCwyLjUyWm0tNTEsMCwzLjYtMi4wNHYyLjA0WiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTMgODIuNjgpIiBmaWxsPSIjZmZmIi8+PC9zdmc+';
 
-		/** The interface stack: Baloo 2 for Latin, Noto Sans SC behind it for Chinese. */
+		/**
+		 * The interface stack: Baloo 2 for Latin, 猫啃珠圆体 behind it for Chinese.
+		 *
+		 * Both are rounded faces with a heavy, even stroke, so the Latin and the
+		 * CJK run at the same visual weight at 12–14px. 思源黑体 was the previous
+		 * fallback and read as a hard-edged grotesque next to Baloo 2.
+		 */
 		const FONT_STACK =
-			'"Baloo 2", "Noto Sans SC", -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif';
+			'"Baloo 2", "MaokenZhuyuanTi", "猫啃珠圆体", -apple-system, "PingFang SC", '
+			+ '"Hiragino Sans GB", "Microsoft YaHei", sans-serif';
 
 		/**
-		 * Code stack: Space Mono for Latin, Noto Serif SC for Chinese.
+		 * Code stack: Space Mono for Latin, 975 圆体 for Chinese.
 		 *
-		 * The Chinese slot is a SERIF on purpose. Space Mono is a geometric
-		 * typewriter face, and the Chinese analogue of typing is Fangsong/Song
-		 * printing, not a geometric sans; 思源宋体 also keeps the gangue of the
-		 * code block (thin horizontals, heavy verticals) closer to Space Mono's
-		 * stencil feel than 思源黑体 does. Chinese is not monospaced, so CJK
-		 * columns still drift — the bundled font fixes the gross, not the grid.
+		 * 975 Maru is derived from 思源黑体 / 狮尾圆体 with a deliberately small
+		 * face, so CJK comments stay crisp at 11–12px where 思源宋体's thin
+		 * horizontals broke up. It is not monospaced, so CJK identifiers still
+		 * drift inside a column — the bundled font fixes the texture, not the grid.
 		 */
 		const CODE_FONT_STACK =
-			'"Space Mono", "Noto Serif SC", "SF Mono", "JetBrains Mono", "Fira Code", Consolas, '
+			'"Space Mono", "975Maru SC", "975 圆体", "SF Mono", "JetBrains Mono", "Fira Code", Consolas, '
 			+ '"Liberation Mono", Menlo, Courier, monospace';
 
 		/** One value for both schemes. */
@@ -422,7 +427,7 @@ window.__ModuleLoader__.load({
 		}
 
 
-		const VIEW_COPY = {"zh":{"title":"JELEE 外观","hint":"紫／蓝独立选择；启用期间组件固定使用深色效果，停用后恢复宿主外观。","purple":"JELEE 紫","blue":"JELEE 蓝","purpleHint":"星星 · 流星 · 泡沫","blueHint":"海浪 · 鱼群 · 气泡","motion":"背景动态","on":"开启动态","system":"跟随系统","off":"静止","running":"动态已开启：泡沫持续上浮，JELEE 蓝中的鱼群横向游动。","reduced":"系统已开启减少动态效果，背景当前静止。选择“开启动态”可播放。","paused":"背景当前静止。","unsaved":"本次选择已应用，但无法保存；重新打开后将恢复原设置。"},"en":{"title":"JELEE appearance","hint":"Choose Purple or Blue independently. Components stay dark while enabled; the previous host appearance returns on disable.","purple":"JELEE Purple","blue":"JELEE Blue","purpleHint":"Stars · Meteors · Bubbles","blueHint":"Waves · Fish · Bubbles","motion":"Background motion","on":"Animate","system":"Follow system","off":"Still","running":"Motion is on: bubbles rise and fish swim across JELEE Blue.","reduced":"Your system reduces motion, so the background is still. Choose Animate to play.","paused":"The background is still.","unsaved":"Applied for now, but could not save. Reopening will restore the previous setting."}};
+		const VIEW_COPY = {"zh":{"title":"JELEE 外观","hint":"紫／蓝独立选择；启用期间组件固定使用深色效果，停用后恢复宿主外观。","purple":"JELEE 紫","blue":"JELEE 蓝","purpleHint":"星星 · 流星 · 泡沫","blueHint":"海浪 · 鱼群 · 气泡","motion":"背景动态","on":"开启动态","system":"跟随系统","off":"静止","running":"动态已开启：泡沫持续上浮，JELEE 蓝中的鱼群横向游动。","reduced":"系统已开启减少动态效果，背景当前静止。选择“开启动态”可播放。","paused":"背景当前静止。","unsaved":"本次选择已应用，但无法保存；重新打开后将恢复原设置。","fontHint":"中文回退使用本机安装的猫啃珠圆体（界面）与 975 圆体（代码），字体文件在 fonts/ 目录。","fontUi":"猫啃珠圆体","fontCode":"975 圆体","installed":"已安装","missing":"未安装，请从 fonts/ 安装"},"en":{"title":"JELEE appearance","hint":"Choose Purple or Blue independently. Components stay dark while enabled; the previous host appearance returns on disable.","purple":"JELEE Purple","blue":"JELEE Blue","purpleHint":"Stars · Meteors · Bubbles","blueHint":"Waves · Fish · Bubbles","motion":"Background motion","on":"Animate","system":"Follow system","off":"Still","running":"Motion is on: bubbles rise and fish swim across JELEE Blue.","reduced":"Your system reduces motion, so the background is still. Choose Animate to play.","paused":"The background is still.","unsaved":"Applied for now, but could not save. Reopening will restore the previous setting.","fontHint":"Chinese falls back to locally installed 猫啃珠圆体 (interface) and 975 圆体 (code). Both ship in fonts/.","fontUi":"MaokenZhuyuanTi","fontCode":"975 Maru SC","installed":"installed","missing":"missing — install from fonts/"}};
 		const APPEARANCE_KEY = 'dsh-theme-jellyfish.appearance';
 		const MOTION_KEY = 'dsh-theme-jellyfish.motion';
 		let view = Object.freeze({ appearance: 'blue', motion: 'on', reduced: false, hidden: false, unsaved: false });
@@ -458,6 +463,44 @@ window.__ModuleLoader__.load({
 			window.addEventListener?.('storage', storage);
 			return () => { media?.removeEventListener?.('change', sense); doc?.removeEventListener?.('visibilitychange', sense); window.removeEventListener?.('storage', storage); };
 		}
+		/**
+		 * Whether a family is available on this machine.
+		 *
+		 * `document.fonts.check()` cannot answer this: it returns `true` for any
+		 * family, installed or not, because it only walks the registered FontFace
+		 * set. Measuring the same string once with the candidate and once with a
+		 * generic is the portable test — metrics only agree when the candidate
+		 * never loads and both runs resolve to the same fallback.
+		 * @param family - CSS family name to probe.
+		 * @returns whether the family resolves locally or is already loaded.
+		 */
+		function isFamilyInstalled(family) {
+			if (typeof document === 'undefined' || typeof document.createElement !== 'function') return false;
+			try {
+				const context = document.createElement('canvas').getContext('2d');
+				if (!context) return false;
+				const sample = '字体检测 Aa 00';
+				context.font = `72px "${family}", monospace`;
+				const withFamily = context.measureText(sample).width;
+				context.font = '72px monospace';
+				const fallback = context.measureText(sample).width;
+				return Math.abs(withFamily - fallback) > 0.5;
+			} catch {
+				return false;
+			}
+		}
+
+		/**
+		 * @param t - namespace-bound translate.
+		 * @returns the two-family installation status line for the settings row.
+		 */
+		function fontStatus(t) {
+			const ui = isFamilyInstalled('MaokenZhuyuanTi') || isFamilyInstalled('猫啃珠圆体');
+			const code = isFamilyInstalled('975Maru SC') || isFamilyInstalled('975 圆体');
+			return `${t('fontUi')}：${t(ui ? 'installed' : 'missing')} · `
+				+ `${t('fontCode')}：${t(code ? 'installed' : 'missing')}`;
+		}
+
 		function AppearanceRow({ locale }) {
 			const current = React.useSyncExternalStore(subscribeView, getView, getView);
 			React.useSyncExternalStore((fn) => locale.subscribe(fn), () => locale.getSnapshot(), () => locale.getSnapshot());
@@ -474,6 +517,8 @@ window.__ModuleLoader__.load({
 				h('label', { className: 'jf-motion-select' }, h('span', null, t('motion')),
 					h('select', { value: current.motion, onChange: (event) => setViewPreference('motion', event.target.value) }, ['on', 'system', 'off'].map((id) => h('option', { key: id, value: id }, t(id))))),
 				h('p', { className: 'jf-setting-hint', role: 'status' }, t(current.motion === 'off' ? 'paused' : current.motion === 'system' && current.reduced ? 'reduced' : 'running')),
+				h('p', { className: 'jf-setting-hint' }, t('fontHint')),
+				h('p', { className: 'jf-setting-hint', 'data-font-status': '' }, fontStatus(t)),
 				current.unsaved ? h('p', { role: 'alert' }, t('unsaved')) : null,
 			);
 		}

@@ -26,9 +26,11 @@ Independent JELEE Purple / Blue appearances, available under Settings → Genera
 
 ## 字体与资源
 
-正文默认 Baloo 2 + Noto Sans SC，代码默认 Space Mono + Noto Serif SC；只设置default token，用户选定字体优先。Latin字体保持内嵌；CJK需从[字体目录](<fonts/NotoSansSC-Regular.ttf>)、[宋体文件](<fonts/NotoSerifSC-Regular.ttf>)安装，未安装则回退系统字体。JELEE外观设置行不修改字体安装或用户字体偏好。
+正文默认 Baloo 2 + 猫啃珠圆体，代码默认 Space Mono + 975 圆体；只设置 default token，用户选定字体优先。Latin 字体保持内嵌；两款 CJK 需从 [猫啃珠圆体](<fonts/MaokenZhuyuanTi-Regular.ttf>)、[975 圆体](<fonts/975MaruSC-Medium.ttf>) 安装，未安装则回退系统字体。JELEE 外观设置行会显示两者的安装状态，但不修改字体安装或用户字体偏好。
 
-字体许可：[Nunito](<LICENSE-Nunito.txt>)、[Baloo 2](<LICENSE-Baloo2.txt>)、[Space Mono](<LICENSE-SpaceMono.txt>)、[Noto CJK](<LICENSE-NotoCJK.txt>)。现有水母图形来自[naive-icons](https://github.com/guokaigdg/naive-icons)。官网JELEE图形另见[来源与权利说明](<THIRD-PARTY-NOTICES.md>)，不归入本仓库MIT许可。
+中文回退的选择理由：界面选**猫啃珠圆体**（龙珠体圆润化，粗圆笔画与 Baloo 2 同权重，12–14px 下不会显得比英文轻）；代码选 **975 圆体**（思源黑体／狮尾圆体衍生的小字面设计，11–12px 中文注释比思源宋体的细横画更清晰）。两者都不是等宽字体，因此代码块内的中文标识符仍会与拉丁列错位，只解决观感不解决网格。
+
+字体许可：[Nunito](<LICENSE-Nunito.txt>)、[Baloo 2](<LICENSE-Baloo2.txt>)、[Space Mono](<LICENSE-SpaceMono.txt>)、[猫啃珠圆体](<LICENSE-MaokenZhuyuanTi.txt>)（含原始授权声明与来源）、[975 圆体](<LICENSE-975MaruSC.txt>)。现有水母图形来自[naive-icons](https://github.com/guokaigdg/naive-icons)。官网 JELEE 图形另见[来源与权利说明](<THIRD-PARTY-NOTICES.md>)，不归入本仓库 MIT 许可。
 
 ## 验证与限制
 

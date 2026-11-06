@@ -10,7 +10,7 @@
 
 ## Existing resources
 
-The existing monochrome jellyfish artwork is derived from naive-icons (MIT): https://github.com/guokaigdg/naive-icons . Existing font licenses remain in LICENSE-Nunito.txt, LICENSE-Baloo2.txt, LICENSE-SpaceMono.txt and LICENSE-NotoCJK.txt. The earlier Jellyfish Display wordmark subset is no longer embedded or used.
+The existing monochrome jellyfish artwork is derived from naive-icons (MIT): https://github.com/guokaigdg/naive-icons . Existing font licenses remain in LICENSE-Nunito.txt, LICENSE-Baloo2.txt, LICENSE-SpaceMono.txt, LICENSE-MaokenZhuyuanTi.txt (Chinese interface fallback, with its original copyright statement and upstream source) and LICENSE-975MaruSC.txt (Chinese code fallback). The earlier Jellyfish Display wordmark subset is no longer embedded or used.
 
 The website particle/fish movement was studied as an implementation reference. The theme uses its own CSS animation code and authored star, shooting-star, bubble, fish and wave geometry; it does not load the website's JavaScript libraries or character illustration.
 
