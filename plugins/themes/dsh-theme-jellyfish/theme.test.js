@@ -180,6 +180,18 @@ test('all generic panel backgrounds are opaque in both modes so dialogs cannot l
  app.dispose();
 });
 
+test('plugins page header drops its opaque band without hiding host controls',()=>{
+  const app=activate();const css=skin(app);
+  const selector='body:has(.jf-skin) [data-plugin-bar]::before';
+  const start=css.indexOf(selector);assert.ok(start>=0,'scoped override exists');
+  const head=css.slice(start,css.indexOf('{',start));
+  assert.match(head,/body:has\(\.jf-skin\) \[data-plugin-bar\]::after/);
+  assert.match(cssBlock(css,selector),/display:\s*none\s*!important/);
+  assert.doesNotMatch(css,/\[data-plugin-bar\]\s*\{[^}]*display:\s*none/);
+  assert.doesNotMatch(css,/data-plugin-toolbar/);
+  app.dispose();
+});
+
 test('native Windows overlay and DOM titlebar share the same opaque top color token',()=>{
  const app=activate();const token=app.tokens['--dsw-specific-sidebar-fill'];
  assert.equal(token.light,'#347ccf');assert.equal(token.dark,'#347ccf');

@@ -31,7 +31,7 @@
 | --- | --- | --- | --- |
 | [dsh-theme-animal-island](plugins/themes/dsh-theme-animal-island/README.md) | themes | 1.5.0 | 动物岛风格主题：浅色奶油纸面、深色暖炭灰、局部薄荷点缀、Nunito 字体，设置页带八种岛屿强调色与三档圆角；1.4.0 让八色覆盖浅色气泡/选区/业务 chip/侧栏选中态，并抬升深色弹层；设计语言参考 guokaigdg 的 [animal-island-ui](https://github.com/guokaigdg/animal-island-ui) |
 | [dsh-theme-claude-code](plugins/themes/dsh-theme-claude-code/README.md) | themes | 1.0.0 | Claude Code 配色：暖纸/暖炭底色，明暗两套色值跟随系统外观 |
-| [dsh-theme-jellyfish](plugins/themes/dsh-theme-jellyfish/README.md) | themes | 0.8.3 | 独立 JELEE 紫／蓝外观，启用期间固定宿主深色组件效果；星空／海景与更丰富的动态泡沫游鱼，背景动态可选，不透明面板、同色Windows标题栏、JELEE HARNESS品牌。 |
+| [dsh-theme-jellyfish](plugins/themes/dsh-theme-jellyfish/README.md) | themes | 0.8.4 | 独立 JELEE 紫／蓝外观，启用期间固定宿主深色组件效果；星空／海景与更丰富的动态泡沫游鱼，背景动态可选，不透明面板、同色Windows标题栏、JELEE HARNESS品牌；插件页 Header 去掉深色底板但保留功能按钮。 |
 | [dsh-godot-debug](plugins/tools/dsh-godot-debug/README.md) | tools | 0.3.0 | 在当前会话的 DSH 右侧栏内嵌预览该会话的 Godot Web 调试版，并显示浏览器控制台日志 |
 | [dsh-open-folder-link](plugins/tools/dsh-open-folder-link/README.md) | tools | 0.1.0 | 在 DSH 对话中点击本机文件夹路径链接，使用系统默认文件管理器打开 |
 | [dsh-session-delete](plugins/tools/dsh-session-delete/README.md) | tools | 0.1.0 | 在侧边栏会话菜单中加入「删除会话…」，二次确认后从磁盘移除会话及其检查点 |

@@ -1,6 +1,6 @@
 ---
 name: "Jellyfish — DSH desktop theme"
-description: "0.8.1：独立JELEE紫／蓝、可见动效与协调JELEE HARNESS品牌。
+description: "0.8.4：独立JELEE紫／蓝、可见动效、协调JELEE HARNESS品牌，插件页Header去掉深色底板。"
 colors:
   day-lavender: "#9191f5"
   day-lilac: "#b49df2"
@@ -76,3 +76,9 @@ components:
 用户拒收实色底板，要求只遮正文并保留背景。已删除InputBar伪元素和isolation。TranscriptCutout只测量主会话ChatView根与输入框矩形，在自有style内输出正文根clip-path底部凹口，背景与输入控件不受影响。窗口/滚动/resize/节点替换按帧合并测量，清理全部观察器与监听，排除自身style变化。24测试通过；实机效果待确认。此前0.8.2遮罩描述为已被替代的历史设计。
 
 用户消息气泡保留透明背景与1px白色半透明边框（border-l3），继续使用原有圆角和排版。
+
+## 0.8.4 插件页 Header 去底板
+
+宿主插件管理页的 `[data-plugin-bar]` 用 `::before` 铺一条 `background: var(--dsw-alias-bg-base)` 的全宽不透明横带，滚动压缩时另有 `::after` 细分隔线。JELEE 将该 token 映射为深蓝／紫后，横带与满屏渐变割裂，视觉上是一块未适配的深色 Header；用户确认只去底板、保留标题与功能按钮。
+
+在自有样式表中以 `body:has(.jf-skin)` 限定，隐藏这两个伪元素（均为绝对定位，不影响宿主高度测量、测量克隆与滚动压缩），不改 `[data-plugin-bar]`、标题、说明、刷新与添加插件按钮的显示或几何。选择器只用宿主稳定的 data 属性，不依赖会随构建重哈希的 CSS module 类名；样式表随插件停用释放。紫／蓝两套外观同样生效，不改任何主题 token。25项测试新增一项守住「只去底板、控件保留」；无新版实机截图，不作视觉通过声明。

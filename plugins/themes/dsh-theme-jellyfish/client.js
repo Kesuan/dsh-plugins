@@ -700,6 +700,14 @@ body:has(.jf-skin[data-jf-appearance="blue"]) [class*='_frame'] [class*='_sideba
   background: var(--jf-column-fill) !important;
   border-bottom: 1px solid var(--dsw-alias-border-l1) !important;
 }
+/* The Plugins page paints a full-width opaque band behind its heading with
+   --dsw-alias-bg-base. On the JELEE gradient that reads as a detached dark
+   Header, so hide only the backing and the compact-state hairline. The host
+   title, intro, refresh and add controls keep their geometry and behaviour. */
+body:has(.jf-skin) [data-plugin-bar]::before,
+body:has(.jf-skin) [data-plugin-bar]::after {
+  display: none !important;
+}
 @media (max-width: 760px) {
   [class*='_frame']:has([class*='_sidebarCol']) {
     background-size: 100% 92px, 18px 18px, 10px 10px, 12px 12px, 40px 40px, 10px 10px, 6px 6px, 40px 30px, 60px 32px, 36px 20px, 100% 100% !important;
@@ -909,7 +917,7 @@ body:has(.jf-skin[data-jf-appearance="purple"]) :is(.jf-star, .jf-meteor) { disp
 		function JellyfishSkin() {
 			const current = React.useSyncExternalStore(subscribeView, getView, getView);
 			return h('div', { className: 'jf-skin', 'data-jf-appearance': current.appearance, 'data-jf-motion': current.motion, 'data-jf-paused': current.hidden || current.motion === 'off' || (current.motion === 'system' && current.reduced) ? 'true' : 'false' },
-				h('style', { 'data-plugin': PKG, 'data-plugin-css': `${PKG}/aquarium-v0.8.3.css` }, SKIN_CSS),
+				h('style', { 'data-plugin': PKG, 'data-plugin-css': `${PKG}/aquarium-v0.8.4.css` }, SKIN_CSS),
 				h(JellyfishAtmosphere),
 				h(TranscriptCutout),
 			);

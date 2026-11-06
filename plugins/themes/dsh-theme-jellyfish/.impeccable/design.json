@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-11-06",
-  "title": "JELEE theme 0.8.3",
+  "title": "JELEE theme 0.8.4",
   "extensions": {
     "colorMeta": {
       "light-top": {
@@ -95,7 +95,8 @@
       "Official JELEE SVG replaces the old wordmark.",
       "Distinct light stars/bubbles and dark fish/waves.",
       "Dark mode explicitly suppresses stars and shooting stars.",
-      "Transparent transcript cutout beneath the composer: no painted backing; original scenery remains visible."
+      "Transparent transcript cutout beneath the composer: no painted backing; original scenery remains visible.",
+      "Plugins page header keeps its host controls but drops the opaque --dsw-alias-bg-base band, so the title and actions sit on the gradient."
     ]
   }
 }
