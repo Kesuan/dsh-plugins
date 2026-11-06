@@ -1,6 +1,22 @@
 {
   "meta": {
-    "title": "Jellyfish Theme",
-    "description": "Jellyfish theme for the DSH desktop client: dotted kraft paper, a monochrome jellyfish brand mark, a jellyfish HARNESS wordmark, warm-charcoal night, eight accents and three contour styles."
+    "title": "Jellyfish theme",
+    "description": "Independent JELEE Purple / Blue palettes with host components locked to dark mode while enabled; animated scenery, opaque panels and JELEE HARNESS branding. Restores the host appearance on disable. Transparent header actions, New Session and user bubbles; The transcript is clipped beneath the composer while the original gradient and waves remain visible."
+  },
+  "appearance": {
+    "title": "JELEE appearance",
+    "hint": "Choose Purple or Blue independently. Components stay dark while enabled; the previous host appearance returns on disable.",
+    "purple": "JELEE Purple",
+    "blue": "JELEE Blue",
+    "purpleHint": "Stars · Meteors · Bubbles",
+    "blueHint": "Waves · Fish · Bubbles",
+    "motion": "Background motion",
+    "on": "Animate",
+    "system": "Follow system",
+    "off": "Still",
+    "running": "Motion is on: bubbles rise and fish swim across JELEE Blue.",
+    "reduced": "Your system reduces motion, so the background is still. Choose Animate to play.",
+    "paused": "The background is still.",
+    "unsaved": "Applied for now, but could not save. Reopening will restore the previous setting."
   }
 }

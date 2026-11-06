@@ -1,17 +1,18 @@
 {
   "name": "@local/dsh-theme-jellyfish",
-  "version": "0.3.1",
+  "version": "0.8.3",
   "scripts": {
     "test": "node --test theme.test.js"
   },
   "private": true,
-  "description": "Jellyfish theme for the DSH desktop client: dotted kraft paper, a monochrome jellyfish brand mark, a jellyfish HARNESS wordmark, paired Latin/CJK type (Baloo 2 + Noto Sans SC, Space Mono + Noto Serif SC), warm-charcoal night, eight accents and three contour styles.",
+  "description": "Independent JELEE Purple / Blue desktop appearances with persistent local controls, denser visible bubbles and fish, motion controls, opaque panels and a coordinated JELEE HARNESS brand.",
   "type": "module",
   "exports": {
     ".": "./index.js",
     "./client": "./client.js",
     "./locale/*.json": "./locale/*.json",
-    "./icon": "./icon.svg"
+    "./icon": "./icon.svg",
+    "./jelee-logo": "./jelee-logo.svg"
   },
   "files": [
     "index.js",
@@ -21,10 +22,14 @@
     "icon.svg",
     "fonts/*.ttf",
     "README.md",
+    "DESIGN.md",
     "LICENSE-Nunito.txt",
     "LICENSE-Baloo2.txt",
     "LICENSE-SpaceMono.txt",
-    "LICENSE-NotoCJK.txt"
+    "LICENSE-NotoCJK.txt",
+    "jelee-logo.svg",
+    "THIRD-PARTY-NOTICES.md",
+    "jelee-jellyfish.svg"
   ],
   "dsh": {
     "bundle": {

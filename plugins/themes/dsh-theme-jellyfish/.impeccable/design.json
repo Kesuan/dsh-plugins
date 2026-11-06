@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-06",
+  "title": "JELEE theme 0.8.3",
+  "extensions": {
+    "colorMeta": {
+      "light-top": {
+        "role": "primary",
+        "canonical": "#9191f5"
+      },
+      "night-top": {
+        "role": "primary",
+        "canonical": "#347ccf"
+      },
+      "light-panel": {
+        "role": "neutral",
+        "canonical": "#9b87cb"
+      },
+      "night-panel": {
+        "role": "neutral",
+        "canonical": "#16385f"
+      }
+    },
+    "typographyMeta": {
+      "body": {
+        "displayName": "Baloo 2 / Noto Sans SC",
+        "purpose": "client.js 的界面默认栈；用户保存字体优先。"
+      },
+      "code": {
+        "displayName": "Space Mono / Noto Serif SC",
+        "purpose": "client.js 的代码默认栈；中文宋体非等宽。"
+      }
+    },
+    "shadows": [
+      {
+        "name": "lv1-light",
+        "value": "0 2px 4px 0 rgba(34, 12, 70, 0.08)",
+        "purpose": "client.js 的浅色 token。"
+      },
+      {
+        "name": "lv1-dark",
+        "value": "0 2px 4px 0 rgba(3, 12, 45, 0.16)",
+        "purpose": "client.js 的深色 token。"
+      },
+      {
+        "name": "lv2-light",
+        "value": "0 4px 12px 0 rgba(34, 12, 70, 0.04), 0 2px 8px 0 rgba(34, 12, 70, 0.06)",
+        "purpose": "client.js 的浅色 token。"
+      },
+      {
+        "name": "lv2-dark",
+        "value": "0 4px 12px 0 rgba(3, 12, 45, 0.18), 0 2px 6px 0 rgba(3, 12, 45, 0.1)",
+        "purpose": "client.js 的深色 token。"
+      },
+      {
+        "name": "lv3-light",
+        "value": "0 0 1px 0 rgba(34, 12, 70, 0.18), 0 0 4px 0 rgba(34, 12, 70, 0.03), 0 12px 32px 0 rgba(34, 12, 70, 0.1)",
+        "purpose": "client.js 的浅色 token。"
+      },
+      {
+        "name": "lv3-dark",
+        "value": "0 12px 28px 0 rgba(3, 12, 45, 0.24), 0 4px 10px 0 rgba(3, 12, 45, 0.12)",
+        "purpose": "client.js 的深色 token。"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "JELEE wordmark",
+      "kind": "custom",
+      "description": "Official wordmark 108px plus 9px HARNESS label, shared line jellyfish"
+    },
+    {
+      "name": "Ambient field",
+      "kind": "custom",
+      "description": "20 inert bubbles, two dark-only fish; light uses static stars/shooting star and no waves. Reduced-motion freezes, forced-colors hides."
+    },
+    {
+      "name": "Official centre jellyfish",
+      "kind": "custom",
+      "description": "Sidebar and hero share the original official path, currentColor, cropped 16 16 48 48 viewBox, no eyes or outer PAGE TOP text."
+    },
+    {
+      "name": "JELEE appearance settings",
+      "kind": "custom",
+      "description": "Two native appearance radios, independent of host appearance; on/system/off motion select, local save warning and motion status."
+    }
+  ],
+  "narrative": {
+    "northStar": "紫粉与深海蓝水族箱",
+    "overview": "Independent Purple / Blue palettes with real host dark-mode enforcement through the Theme service; restores prior/requested host preference on disable. Fixes the observed light message-bubble branch missed by token-only isolation. Visual confirmation pending.",
+    "keyCharacteristics": [
+      "Opaque generic panel surfaces prevent transcript bleed-through.",
+      "Solid titlebar token shared by DOM and native Windows overlay.",
+      "Official JELEE SVG replaces the old wordmark.",
+      "Distinct light stars/bubbles and dark fish/waves.",
+      "Dark mode explicitly suppresses stars and shooting stars.",
+      "Transparent transcript cutout beneath the composer: no painted backing; original scenery remains visible."
+    ]
+  }
+}

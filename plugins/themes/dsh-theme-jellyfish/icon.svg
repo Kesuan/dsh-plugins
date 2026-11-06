@@ -1,12 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Jellyfish theme">
   <title>Jellyfish theme</title>
-  <rect x="1" y="1" width="30" height="30" rx="9" fill="#f4ead8" stroke="#c9b48f" stroke-width="1.5"/>
-  <g transform="translate(4 4) scale(0.5)" fill="none" stroke="#4b3623" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <linearGradient id="sea" x2="0.8" y2="1">
+      <stop stop-color="#a98cf0"/>
+      <stop offset="1" stop-color="#f5a9cd"/>
+    </linearGradient>
+  </defs>
+  <rect x="1" y="1" width="30" height="30" rx="9" fill="url(#sea)" stroke="#ffffff" stroke-width="1.5"/>
+  <g transform="translate(4 4) scale(0.5)" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M10.5 26.2 C 10.5 13.4 37.5 13.4 37.5 26.2 C 37.5 29.6 34.9 31 31.7 31 L16.3 31 C 13.1 31 10.5 29.6 10.5 26.2 Z"/>
     <path d="M17 30.6 C 15.4 34.8 18.6 37.2 17 41.4" stroke-width="3"/>
     <path d="M24 31.4 L24 42" stroke-width="3"/>
     <path d="M31 30.6 C 32.6 34.8 29.4 37.2 31 41.4" stroke-width="3"/>
-    <circle cx="18.8" cy="21.6" r="2.1" fill="#4b3623" stroke="none"/>
-    <circle cx="29.2" cy="21.6" r="2.1" fill="#4b3623" stroke="none"/>
+    <circle cx="18.8" cy="21.6" r="2.1" fill="#ffffff" stroke="none"/>
+    <circle cx="29.2" cy="21.6" r="2.1" fill="#ffffff" stroke="none"/>
   </g>
 </svg>
