@@ -1,8 +1,8 @@
 # Animal Island theme (DSH desktop client)
 
-A DSH bundle adapting [animal-island-ui](https://github.com/guokaigdg/animal-island-ui) to the desktop client. Version **1.4.0** keeps 1.2.0's parchment day and **clean warm-charcoal night**, makes the selected accent reach light bubbles, selection, business chips, sidebar selection and info surfaces, and raises dark menus/popovers above layer 3. It also keeps 1.3.0's toolbar fill repair, island Shiki palette and settings-row readability work. Neutral layers and gray-white text stay independent of the selected accent; pastel states and rounded details retain the island character.
+A DSH bundle adapting [animal-island-ui](https://github.com/guokaigdg/animal-island-ui) to the desktop client. Version **1.5.0** adds selectable contours; **1.4.0** keeps 1.2.0's parchment day and **clean warm-charcoal night**, makes the selected accent reach light bubbles, selection, business chips, sidebar selection and info surfaces, and raises dark menus/popovers above layer 3. It also keeps 1.3.0's toolbar fill repair, island Shiki palette and settings-row readability work. Neutral layers and gray-white text stay independent of the selected accent; pastel states and rounded details retain the island character.
 
-Settings → General → **Island accent** offers the same eight colors. Existing accent storage, appearance, user text fonts and code/terminal fonts are preserved.
+Settings → General → **Island accent** offers the same eight colors and three contour styles: Classic (the existing default), Subtle and Rounded. Contours adjust the host's radius tokens where consumed; they do not replace host controls. The separate `dsh-animal-island.shape` preference persists the selection and falls back to Classic when unavailable or invalid. Existing accent storage, appearance, user text fonts and code/terminal fonts are preserved.
 
 ## Surface palette
 

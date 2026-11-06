@@ -1,6 +1,6 @@
 ---
 name: "Animal Island — DSH desktop theme"
-description: "1.4.0：奶油浅色与暖炭灰深色，八色强调全站生效；保留宿主功能与用户偏好。"
+description: "1.5.0：奶油浅色与暖炭灰深色，八色强调与三档圆角；保留宿主功能与用户偏好。"
 colors:
   night-sidebar: "#20201f"
   night-base: "#292928"
@@ -114,6 +114,8 @@ components:
 明度色阶负责主层级，阴影辅助浮层。深色阴影基色改为 `rgba(20, 19, 17, …)`，浅色仍用暖棕；精选精确值见 [sidecar](<.impeccable/design.json>)。radio 不使用游戏主按钮厚脚阴影。色板 hover/active 位移 −1/+1px，过渡 0.2s、`cubic-bezier(.4, 0, .2, 1)`；reduced-motion 下取消过渡与位移。
 
 ## Shapes
+
+1.5.0 在设置行增加经典、柔和、圆润三档原生 radio，使用独立的 `dsh-animal-island.shape` 偏好；经典保留下述原值。其他两档只改变宿主消费的六个圆角 token，效果取决于宿主控件是否使用这些 token；强制配色显示原生 radio。新版尚未进行桌面截图验收。
 
 宿主圆角 token 见 frontmatter，corner-shape 为 `superellipse(1.3)`；不保证每个宿主控件都消费它。色板显式使用 round 与 50px radius，44px 外框含 2px 边框；选中内点为 10×10px content-box、2px 描边、50% radius，不能将 10px 误报为外径。
 

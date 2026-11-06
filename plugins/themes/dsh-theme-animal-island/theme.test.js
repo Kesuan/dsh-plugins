@@ -7,7 +7,7 @@ const source = await readFile(new URL('./client.js', import.meta.url), 'utf8');
 const packageId = '@local/dsh-theme-animal-island';
 
 // Exercise the real client entry at its service boundary. No DOM or React renderer.
-function activate({ desktop = true, stored = 'mint', storageFails = false } = {}) {
+function activate({ desktop = true, stored = 'mint', shape = null, storageFails = false } = {}) {
   let plugin;
   const registrations = [];
   const cleanups = [];
@@ -16,7 +16,7 @@ function activate({ desktop = true, stored = 'mint', storageFails = false } = {}
   let reads = 0;
   let generation = 0;
   const storage = {
-    getItem() { reads++; if (storageFails) throw Error('unavailable'); return stored; },
+    getItem(key) { reads++; if (storageFails) throw Error('unavailable'); return key.endsWith('.shape') ? shape : stored; },
     setItem(key, value) { writes.push([key, value]); if (storageFails) throw Error('unavailable'); },
   };
   const window = {
@@ -25,7 +25,11 @@ function activate({ desktop = true, stored = 'mint', storageFails = false } = {}
     localStorage: storage,
     __ModuleLoader__: { load(entry) { plugin = entry.factory((name) => {
       assert.equal(name, 'react');
-      return {}; // components are registered as opaque functions, never rendered here
+      return {
+        createElement: (type, props, ...children) => ({ type, props: props || {}, children: children.flat(Infinity) }),
+        useSyncExternalStore: (_subscribe, getSnapshot) => getSnapshot(),
+        useId: () => 'test-id',
+      };
     }); } },
   };
   vm.runInNewContext(source, { window, console: { log() {} } });
@@ -188,6 +192,35 @@ test('desktop lifecycle registers existing slots and removes every owned registr
   app.dispose();
   assert.equal(app.layers.size, 0);
   assert.equal(app.registrations.length, 0);
+});
+
+test('contour choices preserve the default and update and persist independently', () => {
+  const app = activate({ stored: 'sky' });
+  assert.equal(app.tokens['--dsw-radius-md'].light, '14px');
+  const row = app.registrations.find((entry) => entry.options.id === 'animal-island-accent');
+  const tree = row.component({ t: (key) => key });
+  const visit = (node) => node && typeof node === 'object'
+    ? [node, ...node.children.flatMap(visit)] : [];
+  const radios = visit(tree).filter((node) => node.type === 'input');
+  assert.equal(radios.length, 11);
+  radios.find((node) => node.props.value === 'round').props.onChange();
+  assert.equal(app.tokens['--dsw-radius-md'].light, '18px');
+  assert.equal(app.tokens['--dsw-alias-brand-primary'].light, '#4e63cf');
+  assert.deepEqual(app.writes.at(-1), ['dsh-animal-island.shape', 'round']);
+  app.dispose();
+  assert.equal(app.layers.size, 0);
+  const restored = activate({ shape: 'soft' });
+  assert.equal(restored.tokens['--dsw-radius-panel'].dark, '24px');
+  restored.dispose();
+  const invalid = activate({ shape: '__proto__' });
+  assert.equal(invalid.tokens['--dsw-radius-md'].dark, '18px');
+  invalid.dispose();
+  const inaccessible = activate({ storageFails: true });
+  const unavailableRow = inaccessible.registrations.find((entry) => entry.options.id === 'animal-island-accent');
+  const unavailableTree = unavailableRow.component({ t: (key) => key });
+  visit(unavailableTree).find((node) => node.type === 'input' && node.props.value === 'soft').props.onChange();
+  assert.equal(inaccessible.tokens['--dsw-radius-md'].light, '12px');
+  inaccessible.dispose();
 });
 
 test('plain browsers receive no token layer, settings row, or preference writes', () => {

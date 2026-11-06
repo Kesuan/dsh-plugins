@@ -38,6 +38,12 @@ window.__ModuleLoader__.load({
 		const PKG = '@local/dsh-theme-animal-island';
 		const NS = 'animalIslandTheme';
 		const ACCENT_STORAGE_KEY = 'dsh-animal-island.accent';
+		const SHAPE_STORAGE_KEY = 'dsh-animal-island.shape';
+		const SHAPES = {
+			classic: { xs: ['6px', '12px'], sm: ['10px', '12px'], md: ['14px', '18px'], lg: '20px', xl: '24px', panel: '28px' },
+			soft: { xs: ['8px', '8px'], sm: ['10px', '10px'], md: ['12px', '12px'], lg: '16px', xl: '20px', panel: '24px' },
+			round: { xs: ['12px', '12px'], sm: ['14px', '14px'], md: ['18px', '18px'], lg: '24px', xl: '28px', panel: '32px' },
+		};
 
 		/** Nunito variable font, latin subset (SIL OFL 1.1 — see LICENSE-Nunito.txt). */
 		const NUNITO_WOFF2 =
@@ -390,7 +396,7 @@ window.__ModuleLoader__.load({
 		 * @param accent - the accent color set.
 		 * @returns token-name → `{ light, dark }` pairs.
 		 */
-		function buildTokens(accent) {
+		function buildTokens(accent, shape = SHAPES.classic) {
 			const L = ISLAND.light;
 			const D = ISLAND.dark;
 			const brandL = accent.light.brand;
@@ -527,12 +533,12 @@ window.__ModuleLoader__.load({
 				),
 
 				// ── Island geometry: rounder corners and warm, never cold, shadows
-				'--dsw-radius-xs': split('6px', '12px'),
-				'--dsw-radius-sm': split('10px', '12px'),
-				'--dsw-radius-md': split('14px', '18px'),
-				'--dsw-radius-lg': both('20px'),
-				'--dsw-radius-xl': both('24px'),
-				'--dsw-radius-panel': both('28px'),
+				'--dsw-radius-xs': split(...shape.xs),
+				'--dsw-radius-sm': split(...shape.sm),
+				'--dsw-radius-md': split(...shape.md),
+				'--dsw-radius-lg': both(shape.lg),
+				'--dsw-radius-xl': both(shape.xl),
+				'--dsw-radius-panel': both(shape.panel),
 				'--dsw-corner-shape': both('superellipse(1.3)'),
 				'--dsw-shadow-lv1': split(
 					'0 2px 4px 0 rgba(61, 52, 40, 0.08)',
@@ -594,6 +600,26 @@ window.__ModuleLoader__.load({
 			for (const listener of accentListeners) listener(id);
 		}
 
+		let shapeId = 'classic';
+		const shapeListeners = new Set();
+		function readShapeId() {
+			try {
+				const value = window.localStorage.getItem(SHAPE_STORAGE_KEY);
+				if (Object.hasOwn(SHAPES, value)) return value;
+			} catch { /* Keep the default if storage is unavailable. */ }
+			return 'classic';
+		}
+		function subscribeShape(listener) {
+			shapeListeners.add(listener);
+			return () => shapeListeners.delete(listener);
+		}
+		function setShapeId(id) {
+			if (!Object.hasOwn(SHAPES, id) || id === shapeId) return;
+			shapeId = id;
+			try { window.localStorage.setItem(SHAPE_STORAGE_KEY, id); } catch { /* Session-only preference. */ }
+			for (const listener of shapeListeners) listener();
+		}
+
 		// ── Locale dictionaries ─────────────────────────────────────────────────
 		const en = {
 			'row.title': 'Island accent',
@@ -606,6 +632,10 @@ window.__ModuleLoader__.load({
 			'accent.grape': 'Grape purple',
 			'accent.leaf': 'Leaf green',
 			'accent.coral': 'Coral red',
+			'shape.title': 'Island contours',
+			'shape.classic': 'Classic',
+			'shape.soft': 'Subtle',
+			'shape.round': 'Rounded',
 		};
 
 		const zh = {
@@ -619,6 +649,10 @@ window.__ModuleLoader__.load({
 			'accent.grape': '葡萄紫',
 			'accent.leaf': '叶子绿',
 			'accent.coral': '珊瑚红',
+			'shape.title': '小岛圆角',
+			'shape.classic': '经典',
+			'shape.soft': '柔和',
+			'shape.round': '圆润',
 		};
 
 		// ── Plugin-owned stylesheet ─────────────────────────────────────────────
@@ -725,9 +759,26 @@ window.__ModuleLoader__.load({
   background: var(--dsw-alias-bg-base);
   pointer-events: none;
 }
+.aia-shapes { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px; }
+.aia-shape {
+  position: relative; display: inline-flex; align-items: center; gap: 8px;
+  min-height: 44px; padding: 0 12px; box-sizing: border-box;
+  border: 1px solid var(--dsw-alias-border-l3); border-radius: 12px;
+  color: var(--dsw-alias-label-primary); cursor: pointer; font-size: 12px;
+}
+.aia-shape:has(input:checked) {
+  border-color: var(--dsw-alias-brand-primary);
+  background: var(--dsw-alias-interactive-bg-active);
+}
+.aia-shape:has(input:focus-visible) { outline: 2px solid var(--dsw-focus-ring-color); outline-offset: 3px; }
+.aia-shape-preview { width: 18px; height: 18px; box-sizing: border-box; border: 2px solid currentColor; }
+.aia-shape-classic { border-radius: 6px; }
+.aia-shape-soft { border-radius: 3px; }
+.aia-shape-round { border-radius: 9px; }
 @media (forced-colors: active) {
   .aia-radio { opacity: 1; appearance: auto; }
   .aia-check { display: none; }
+  .aia-shape .aia-radio { position: static; width: auto; height: auto; }
 }
 @media (prefers-reduced-motion: reduce) {
   .aia-swatch { transition: none; }
@@ -753,6 +804,7 @@ window.__ModuleLoader__.load({
 		 */
 		function AccentRow({ t }) {
 			const active = React.useSyncExternalStore(subscribeAccent, getAccentId);
+			const shape = React.useSyncExternalStore(subscribeShape, () => shapeId);
 			const groupId = React.useId();
 			return h(
 				'div',
@@ -790,6 +842,15 @@ window.__ModuleLoader__.load({
 						);
 					}),
 				),
+				h('span', { className: 'aia-title', id: `${groupId}-shape-title` }, t('shape.title')),
+				h('div', { className: 'aia-shapes', role: 'radiogroup', 'aria-labelledby': `${groupId}-shape-title` },
+					Object.keys(SHAPES).map((id) => h('label', { key: id, className: 'aia-shape' },
+						h('input', { type: 'radio', name: `${groupId}-shape`, value: id, checked: shape === id,
+							className: 'aia-radio', onChange: () => setShapeId(id) }),
+						h('span', { className: `aia-shape-preview aia-shape-${id}`, 'aria-hidden': 'true' }),
+						t(`shape.${id}`),
+					)),
+				),
 			);
 		}
 
@@ -825,19 +886,23 @@ window.__ModuleLoader__.load({
 
 				// Read preferences only on activation, never in the module factory.
 				accentId = readAccentId();
+				shapeId = readShapeId();
 
 				// One token layer for the whole palette. Changing the accent
 				// re-registers the same source, which replaces the layer and
 				// restacks it on top, so no second layer is ever introduced.
 				ctx.effect(() => {
-					let dispose = ctx.theme.overrideTokens(PKG, buildTokens(accentById(getAccentId())));
-					const off = subscribeAccent((id) => {
+					let dispose = ctx.theme.overrideTokens(PKG, buildTokens(accentById(getAccentId()), SHAPES[shapeId]));
+					const update = () => {
 						const previous = dispose;
-						dispose = ctx.theme.overrideTokens(PKG, buildTokens(accentById(id)));
+						dispose = ctx.theme.overrideTokens(PKG, buildTokens(accentById(getAccentId()), SHAPES[shapeId]));
 						if (previous) previous(); // stale-layer disposal is a safe no-op
-					});
+					};
+					const off = subscribeAccent(update);
+					const offShape = subscribeShape(update);
 					return () => {
 						off();
+						offShape();
 						if (dispose) dispose();
 					};
 				}, 'animal-island: tokens');
